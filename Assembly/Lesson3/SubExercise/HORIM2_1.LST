@@ -1,0 +1,453 @@
+Microsoft (R) Macro Assembler Version 5.10                  10/3/23 15:57:30
+                                                             Page     1-1
+
+
+       1				
+       2 0000				Code    Segment
+       3				        assume CS:Code, DS:Data, SS:Sta
+					ck
+       4 0000				Start:
+       5 0000  B8 ---- R		        mov ax, Code
+       6 0003  8E D8			        mov DS, AX
+       7				
+       8 0005  B8 0003			        mov ax,03
+       9 0008  CD 10			        int 10h
+      10 000A				KiirMenu:
+      11				
+      12 000A  B4 02					mov ah, 02h
+      13 000C  B7 00					mov bh,0
+      14 000E  B6 0A					mov dh,10
+      15						
+      16 0010  CD 10					int 10h
+      17						
+      18 0012  B2 0A					mov dl,10
+      19 0014  B4 02					mov ah,02h
+      20 0016  CD 21					int 21h
+      21 0018  B2 0D					mov dl,13
+      22 001A  B4 02					mov ah,02h
+      23 001C  CD 21					int 21h
+      24						
+      25 001E  BA 0222 R				mov dx,offset ertek
+      26 0021  B4 09			        mov ah,09h
+      27 0023  CD 21			        int 21h
+      28						
+      29 0025  B2 0A					mov dl,10
+      30 0027  B4 02					mov ah,02h
+      31 0029  CD 21					int 21h
+      32 002B  B2 0D					mov dl,13
+      33 002D  B4 02					mov ah,02h
+      34 002F  CD 21					int 21h
+      35						
+      36 0031  BA 0227 R				mov dx,offset ertek2
+      37 0034  B4 09			        mov ah,09h
+      38 0036  CD 21			        int 21h
+      39								
+      40 0038  B2 0A					mov dl,10
+      41 003A  B4 02					mov ah,02h
+      42 003C  CD 21					int 21h
+      43 003E  B2 0D					mov dl,13
+      44 0040  B4 02					mov ah,02h
+      45 0042  CD 21					int 21h
+      46						
+      47 0044  BA 01FE R				mov dx,offset menu1
+      48 0047  B4 09			        mov ah,09h
+      49 0049  CD 21			        int 21h
+      50						
+      51 004B  B2 0A					mov dl,10
+      52 004D  B4 02					mov ah,02h
+      53 004F  CD 21					int 21h
+Microsoft (R) Macro Assembler Version 5.10                  10/3/23 15:57:30
+                                                             Page     1-2
+
+
+      54 0051  B2 0D					mov dl,13
+      55 0053  B4 02					mov ah,02h
+      56 0055  CD 21					int 21h
+      57						
+      58 0057  BA 020B R				mov dx,offset menu2
+      59 005A  B4 09			        mov ah,09h
+      60 005C  CD 21			        int 21h
+      61						
+      62 005E  B2 0A					mov dl,10
+      63 0060  B4 02					mov ah,02h
+      64 0062  CD 21					int 21h
+      65 0064  B2 0D					mov dl,13
+      66 0066  B4 02					mov ah,02h
+      67 0068  CD 21					int 21h
+      68						
+      69						
+      70 006A  BA 021B R				mov dx,offset menu3
+      71 006D  B4 09			        mov ah,09h
+      72 006F  CD 21			        int 21h
+      73						
+      74 0071  EB 03 90					jmp MenuValaszt
+      75 0074				JumpMeu:
+      76 0074  EB 94					jmp KiirMenu
+      77 0076				MenuValaszt:
+      78				
+      79 0076  B4 00					mov ah,00
+      80 0078  CD 16					int 16h
+      81				
+      82 007A  83 FF 00			        cmp di, 0
+      83 007D  75 05			        jnz SiNullaCheck
+      84				
+      85 007F  83 FE 00			        cmp si, 0
+      86 0082  75 05			        jnz DiNullaCheck
+      87				
+      88 0084				SiNullaCheck:
+      89 0084  83 FE 00			        cmp si, 0
+      90 0087  75 14			        jnz MindkettoNulla
+      91 0089				DiNullaCheck:
+      92 0089  83 FF 00			        cmp di, 0
+      93 008C  75 0F			        jnz MindkettoNulla
+      94				
+      95 008E  3C 1B					cmp al,27
+      96 0090  74 76					jz JumpHelper
+      97						
+      98 0092  3C 31					cmp al, '1'
+      99 0094  74 1F					jz ElsoErtek
+     100						
+     101 0096  3C 32					cmp al, '2'
+     102 0098  74 6B					jz JumpHelper3
+     103				
+     104				
+     105				
+     106 009A  EB 04 90			        jmp HibaJump
+     107				
+Microsoft (R) Macro Assembler Version 5.10                  10/3/23 15:57:30
+                                                             Page     1-3
+
+
+     108 009D				MindkettoNulla:
+     109 009D  EB 69 90			    jmp JumpHelper
+     110				
+     111 00A0				HibaJump:
+     112 00A0  B2 0A			        mov dl,10
+     113 00A2  B4 02					mov ah,02h
+     114 00A4  CD 21					int 21h
+     115 00A6  B2 0D					mov dl,13
+     116 00A8  B4 02					mov ah,02h
+     117 00AA  CD 21					int 21h
+     118				
+     119 00AC  BA 022C R		        mov dx, offset hiba
+     120 00AF  B4 09			        mov ah, 09h
+     121 00B1  CD 21			        int 21h
+     122				
+     123 00B3  EB C1			        jmp MenuValaszt
+     124						
+     125 00B5				ElsoErtek:
+     126 00B5  BF 0222 R				mov di, offset ertek
+     127 00B8				BevitelElso:
+     128				
+     129 00B8  B4 00					mov ah,00
+     130 00BA  B0 02					mov al,02
+     131 00BC  CD 10					int 10h
+     132						
+     133 00BE  BA 01CA R				mov dx,offset elsoszam
+     134 00C1  B4 09			        mov ah,09h
+     135 00C3  CD 21			        int 21h
+     136						
+     137 00C5  B2 0A					mov dl,10
+     138 00C7  B4 02					mov ah,02h
+     139 00C9  CD 21					int 21h
+     140 00CB  B2 0D					mov dl,13
+     141 00CD  B4 02					mov ah,02h
+     142 00CF  CD 21					int 21h
+     143						
+     144 00D1  33 C0			        xor ax,ax
+     145 00D3  CD 16			        int 16h
+     146				
+     147 00D5  8B D8			        mov bx,ax
+     148 00D7  B8 0003			        mov ax,03
+     149 00DA  CD 10			        int 10h
+     150 00DC  8B C3			        mov ax,bx
+     151				
+     152 00DE  3C 1B			        cmp al,27
+     153 00E0  74 92			        jz JumpMeu
+     154				
+     155 00E2  B9 000A			        mov cx,10
+     156 00E5  B4 30			        mov ah,"0"
+     157						
+     158 00E7  EB 01 90					jmp Vizsgelso
+     159				
+     160 00EA				Vizsgelso:
+     161 00EA  3A C4			        cmp al,ah
+Microsoft (R) Macro Assembler Version 5.10                  10/3/23 15:57:30
+                                                             Page     1-4
+
+
+     162 00EC  74 20			        jz Tarolelso
+     163 00EE  FE C4			        inc ah
+     164 00F0  E2 F8			        loop Vizsgelso
+     165				
+     166 00F2  B4 02			        mov ah,02h
+     167 00F4  B7 00			        mov bh,0
+     168 00F6  B6 0A			        mov dh,10
+     169 00F8  B2 00			        mov dl,0
+     170 00FA  CD 10			        int 10h
+     171				
+     172 00FC  BA 022C R		        mov dx,offset hiba
+     173 00FF  B4 09			        mov ah,9
+     174 0101  CD 21			        int 21h
+     175				
+     176 0103  EB B3			        jmp Bevitelelso
+     177 0105				JumpHelper3:
+     178 0105  EB 3C 90					jmp MasodikErtek
+     179 0108				JumpHelper:
+     180 0108  E9 01C5 R				jmp Program_Vege
+     181 010B				JumpHelper2:
+     182 010B  E9 000A R				jmp KiirMenu
+     183 010E				Tarolelso:
+     184 010E  88 05			        mov [di],al
+     185 0110  47			        inc di
+     186 0111  B0 24			        mov al,"$"
+     187 0113  88 05			        mov [di],al
+     188				
+     189 0115  B4 02			        mov ah,02h
+     190 0117  B7 00			        mov bh,0
+     191 0119  B6 05			        mov dh,5
+     192 011B  B2 1C			        mov dl,28
+     193 011D  CD 10			        int 10h
+     194				
+     195 011F  BA 0222 R		        mov dx, offset ertek
+     196 0122  B4 09			        mov ah,9
+     197 0124  CD 21			        int 21h
+     198				
+     199 0126  B8 0222 R		        mov ax, offset ertek
+     200 0129  05 0004			        add ax,4
+     201 012C  3B C7			        cmp ax,di
+     202 012E  75 88			        jnz Bevitelelso
+     203				
+     204 0130  B4 02			        mov ah,02h
+     205 0132  B7 00			        mov bh,0
+     206 0134  B6 07			        mov dh,7
+     207 0136  B2 00			        mov dl,0
+     208 0138  CD 10			        int 10h
+     209						
+     210 013A  B4 00			        mov ah,00
+     211 013C  B0 02				    mov al,02
+     212 013E  CD 10				    int 10h
+     213						
+     214 0140  E9 000A R			    jmp KiirMenu
+     215 0143				MasodikErtek:
+Microsoft (R) Macro Assembler Version 5.10                  10/3/23 15:57:30
+                                                             Page     1-5
+
+
+     216 0143  BE 0227 R			    mov si, offset ertek2
+     217 0146				BevitelMasodik:
+     218				
+     219 0146  B4 00				    mov ah,00
+     220 0148  B0 02				    mov al,02
+     221 014A  CD 10				    int 10h
+     222						
+     223 014C  BA 01E3 R			    mov dx,offset masodikszam
+     224 014F  B4 09			        mov ah,09h
+     225 0151  CD 21			        int 21h
+     226						
+     227 0153  B2 0A			        mov dl,10
+     228 0155  B4 02			        mov ah,02h
+     229 0157  CD 21			        int 21h
+     230 0159  B2 0D			        mov dl,13
+     231 015B  B4 02			        mov ah,02h
+     232 015D  CD 21			        int 21h
+     233						
+     234 015F  33 C0			        xor ax,ax
+     235 0161  CD 16			        int 16h
+     236				
+     237 0163  8B D8			        mov bx,ax
+     238 0165  B8 0003			        mov ax,03
+     239 0168  CD 10			        int 10h
+     240 016A  8B C3			        mov ax,bx
+     241				
+     242 016C  3C 1B			        cmp al,27
+     243 016E  74 9B			        jz JumpHelper2
+     244				
+     245 0170  B9 000A			        mov cx,10
+     246 0173  B4 30			        mov ah,"0"
+     247 0175				Vizsgmasodik:
+     248 0175  3A C4			        cmp al,ah
+     249 0177  74 17			        jz Tarolmasodik
+     250 0179  FE C4			        inc ah
+     251 017B  E2 F8			        loop Vizsgmasodik
+     252				
+     253 017D  B4 02			        mov ah,02h
+     254 017F  B7 00			        mov bh,0
+     255 0181  B6 0A			        mov dh,10
+     256 0183  B2 00			        mov dl,0
+     257 0185  CD 10			        int 10h
+     258				
+     259 0187  BA 022C R		        mov dx,offset hiba
+     260 018A  B4 09			        mov ah,9
+     261 018C  CD 21			        int 21h
+     262				
+     263 018E  EB B6			        jmp Bevitelmasodik
+     264				
+     265 0190				Tarolmasodik:
+     266 0190  88 04			        mov [si],al
+     267 0192  46			        inc si
+     268 0193  B0 24			        mov al,"$"
+     269 0195  88 04			        mov [si],al
+Microsoft (R) Macro Assembler Version 5.10                  10/3/23 15:57:30
+                                                             Page     1-6
+
+
+     270				
+     271 0197  B4 02			        mov ah,02h
+     272 0199  B7 00			        mov bh,0
+     273 019B  B6 05			        mov dh,5
+     274 019D  B2 1C			        mov dl,28
+     275 019F  CD 10			        int 10h
+     276				
+     277 01A1  BA 0227 R		        mov dx, offset ertek2
+     278 01A4  B4 09			        mov ah,9
+     279 01A6  CD 21			        int 21h
+     280				
+     281 01A8  B8 0227 R		        mov ax, offset ertek2
+     282 01AB  05 0004			        add ax,4
+     283 01AE  3B C6			        cmp ax,si
+     284 01B0  75 94			        jnz Bevitelmasodik
+     285				
+     286 01B2  B4 02			        mov ah,02h
+     287 01B4  B7 00			        mov bh,0
+     288 01B6  B6 07			        mov dh,7
+     289 01B8  B2 00			        mov dl,0
+     290 01BA  CD 10			        int 10h
+     291				
+     292 01BC  B4 00			        mov ah,00
+     293 01BE  B0 02				    mov al,02
+     294 01C0  CD 10				    int 10h
+     295						
+     296 01C2  E9 010B R			    jmp JumpHelper2
+     297 01C5				Program_Vege:
+     298 01C5  B8 4C00			        mov ax,4c00h
+     299 01C8  CD 21			        int 21h
+     300 01CA				elsoszam:
+     301 01CA  41 64 6A 61 20 6D		db "Adja meg az elso szamot $"
+     302       65 67 20 61 7A 20	
+     303       65 6C 73 6F 20 73	
+     304       7A 61 6D 6F 74 20	
+     305       24			
+     306 01E3				masodikszam:
+     307 01E3  41 64 6A 61 20 6D		db "Adja meg a masodik szamot $
+					"
+     308       65 67 20 61 20 6D	
+     309       61 73 6F 64 69 6B	
+     310       20 73 7A 61 6D 6F	
+     311       74 20 24			
+     312 01FE				menu1:
+     313 01FE  31 20 65 6C 73 6F		db "1 elso szam $"
+     314       20 73 7A 61 6D 20	
+     315       24			
+     316 020B				menu2:
+     317 020B  32 20 6D 61 73 6F		db "2 masodik szam $"
+     318       64 69 6B 20 73 7A	
+     319       61 6D 20 24		
+     320 021B				menu3:
+     321 021B  33 20 45 53 43 20		db "3 ESC $"
+     322       24			
+Microsoft (R) Macro Assembler Version 5.10                  10/3/23 15:57:30
+                                                             Page     1-7
+
+
+     323 0222				ertek:
+     324 0222  2A 2A 2A 2A 24		        db "****$"
+     325 0227				ertek2:
+     326 0227  2A 2A 2A 2A 24				db "****$"
+     327				
+     328 022C				hiba:
+     329 022C  4E 65 6D 20 6D 65	        db "Nem megengedett karakter!$"
+     330       67 65 6E 67 65 64	
+     331       65 74 74 20 6B 61	
+     332       72 61 6B 74 65 72	
+     333       21 24			
+     334				
+     335 0246				uzenet:
+     336 0246  56 65 67 65 20 61	        db "Vege a bevitelnek!$"
+     337       20 62 65 76 69 74	
+     338       65 6C 6E 65 6B 21	
+     339       24			
+     340				
+     341 0259				Code Ends
+     342				
+     343 0000				Data Segment
+     344 0000				Data Ends
+     345				
+     346 0000				Stack Segment
+     347 0000				Stack Ends
+     348				
+     349				        End Start
+Microsoft (R) Macro Assembler Version 5.10                  10/3/23 15:57:30
+                                                             Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+CODE . . . . . . . . . . . . . .  	0259	PARA	NONE	
+DATA . . . . . . . . . . . . . .  	0000	PARA	NONE	
+STACK  . . . . . . . . . . . . .  	0000	PARA	NONE	
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+BEVITELELSO  . . . . . . . . . .  	L NEAR	00B8	CODE
+BEVITELMASODIK . . . . . . . . .  	L NEAR	0146	CODE
+
+DINULLACHECK . . . . . . . . . .  	L NEAR	0089	CODE
+
+ELSOERTEK  . . . . . . . . . . .  	L NEAR	00B5	CODE
+ELSOSZAM . . . . . . . . . . . .  	L NEAR	01CA	CODE
+ERTEK  . . . . . . . . . . . . .  	L NEAR	0222	CODE
+ERTEK2 . . . . . . . . . . . . .  	L NEAR	0227	CODE
+
+HIBA . . . . . . . . . . . . . .  	L NEAR	022C	CODE
+HIBAJUMP . . . . . . . . . . . .  	L NEAR	00A0	CODE
+
+JUMPHELPER . . . . . . . . . . .  	L NEAR	0108	CODE
+JUMPHELPER2  . . . . . . . . . .  	L NEAR	010B	CODE
+JUMPHELPER3  . . . . . . . . . .  	L NEAR	0105	CODE
+JUMPMEU  . . . . . . . . . . . .  	L NEAR	0074	CODE
+
+KIIRMENU . . . . . . . . . . . .  	L NEAR	000A	CODE
+
+MASODIKERTEK . . . . . . . . . .  	L NEAR	0143	CODE
+MASODIKSZAM  . . . . . . . . . .  	L NEAR	01E3	CODE
+MENU1  . . . . . . . . . . . . .  	L NEAR	01FE	CODE
+MENU2  . . . . . . . . . . . . .  	L NEAR	020B	CODE
+MENU3  . . . . . . . . . . . . .  	L NEAR	021B	CODE
+MENUVALASZT  . . . . . . . . . .  	L NEAR	0076	CODE
+MINDKETTONULLA . . . . . . . . .  	L NEAR	009D	CODE
+
+PROGRAM_VEGE . . . . . . . . . .  	L NEAR	01C5	CODE
+
+SINULLACHECK . . . . . . . . . .  	L NEAR	0084	CODE
+START  . . . . . . . . . . . . .  	L NEAR	0000	CODE
+
+TAROLELSO  . . . . . . . . . . .  	L NEAR	010E	CODE
+TAROLMASODIK . . . . . . . . . .  	L NEAR	0190	CODE
+
+UZENET . . . . . . . . . . . . .  	L NEAR	0246	CODE
+
+VIZSGELSO  . . . . . . . . . . .  	L NEAR	00EA	CODE
+VIZSGMASODIK . . . . . . . . . .  	L NEAR	0175	CODE
+
+@CPU . . . . . . . . . . . . . .  	TEXT  0101h		
+Microsoft (R) Macro Assembler Version 5.10                  10/3/23 15:57:30
+                                                             Symbols-2
+
+
+@FILENAME  . . . . . . . . . . .  	TEXT  horim2_1		
+@VERSION . . . . . . . . . . . .  	TEXT  510		
+
+
+    329 Source  Lines
+    329 Total   Lines
+     37 Symbols
+
+  47432 + 451604 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors

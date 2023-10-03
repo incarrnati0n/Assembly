@@ -1,0 +1,202 @@
+Microsoft (R) Macro Assembler Version 5.10                  10/3/23 13:14:00
+                                                             Page     1-1
+
+
+       1				
+       2 0000				Code Segment
+       3				    assume CS:Code, DS:Data, SS:Stack
+       4				
+       5 0000				Start:
+       6 0000  B8 ---- R		    mov ax, Code
+       7 0003  8E D8			    mov ds, ax
+       8				
+       9 0005  BF 007D R		    mov di, offset ertek
+      10				
+      11 0008  B8 0003			    mov ax, 03 ;képernyőtörlés
+      12 000B  CD 10			    int 10h 
+      13				
+      14 000D				Bevitel:
+      15 000D  BA 00AE R		    mov dx, offset menupont
+      16 0010  B4 09			    mov ah, 09
+      17 0012  CD 21			    int 21h
+      18				
+      19 0014  33 C0			    xor ax, ax
+      20 0016  CD 16			    int 16h ;várakozás egy billenytű
+					 leütésére
+      21				
+      22 0018  8B D8			    mov bx, ax ;ax elmentése
+      23 001A  B8 0003			    mov ax, 03
+      24 001D  CD 10			    int 10h
+      25 001F  8B C3			    mov ax, bx ;ax visszaállítása
+      26				
+      27 0021  3C 1B			    cmp al, 27 ;ESC billentyű lenyomá
+					sát vizsgáljuk
+      28 0023  74 53			    jz Program_vege ;igaz feltétel ese
+					tén kiugrunk a programból, 
+      29				    ;hamis esetén folytatódik tovább
+      30				
+      31 0025  B9 000A			    mov cx, 10
+      32 0028  B4 30			    mov ah, '0'
+      33				
+      34 002A				Vizsg: 
+      35 002A  3A C4			    cmp al, ah
+      36 002C  74 17			    jz Tarol
+      37 002E  FE C4			    inc ah
+      38 0030  E2 F8			    loop Vizsg
+      39				
+      40				    ;kurzor pozíció
+      41 0032  B4 02			    mov ah, 02h
+      42 0034  B7 00			    mov bh, 0
+      43 0036  B6 0A			    mov dh, 10
+      44 0038  B2 00			    mov dl, 0
+      45 003A  CD 10			    int 10h
+      46				
+      47				    ;hiba (nem számbillentyű lenyomá
+					sa) kiiratása
+      48 003C  BA 0082 R		    mov dx, offset hiba
+      49 003F  B4 09			    mov ah, 09
+      50 0041  CD 21			    int 21h
+Microsoft (R) Macro Assembler Version 5.10                  10/3/23 13:14:00
+                                                             Page     1-2
+
+
+      51				
+      52 0043  EB C8			    jmp Bevitel
+      53				
+      54 0045				Tarol:
+      55				    ;di regiszter tartalma az ertek cim
+					ke offset memória címe
+      56 0045  88 05			    mov [di], al ;kiírjuk a leütött 
+					billentyű ASCII értékét a memóriá
+					ba
+      57 0047  47			    inc di ;növeljük az offset címet
+      58 0048  B0 24			    mov al, '$'
+      59 004A  88 05			    mov [di], al ;kiírunk egy karakter
+					sorozatot lezáró vezérlő karaktert(
+					'$')
+      60				    
+      61				    ;kurzor pozicionálás
+      62 004C  B4 02			    mov ah, 02h
+      63 004E  B7 00			    mov bh, 0
+      64 0050  B6 05			    mov dh, 5
+      65 0052  B2 1C			    mov dl, 28
+      66 0054  CD 10			    int 10h
+      67				
+      68				    ;szám kiírása
+      69 0056  BA 007D R		    mov dx, offset ertek
+      70 0059  B4 09			    mov ah, 09
+      71 005B  CD 21			    int 21h
+      72				
+      73 005D  B8 007D R		    mov ax, offset ertek
+      74 0060  05 0004			    add ax, 4
+      75 0063  3B C7			    cmp ax, di
+      76 0065  75 A6			    jnz Bevitel
+      77				    ;még nem ütöttünk le 4 numeriku
+					s billentyűt, kezdőcím + 4 nagyobb m
+					int
+      78				    ;az utolsó tárolt karakter címe
+      79				
+      80				    ;egyébként tovább fut a program
+      81				
+      82				    ;kurzor pozicionálás
+      83 0067  B4 02			    mov ah, 02h
+      84 0069  B7 00			    mov bh, 0
+      85 006B  B6 07			    mov dh, 7
+      86 006D  B2 00			    mov dl, 0
+      87 006F  CD 10			    int 10h
+      88				
+      89				    ;vége kiírása
+      90 0071  BA 009C R		    mov dx, offset uzenet
+      91 0074  B4 09			    mov ah, 09h
+      92 0076  CD 21			    int 21h
+      93				
+      94 0078				Program_vege:
+      95 0078  B8 4C00			    mov ax, 4c00h
+      96 007B  CD 21			    int 21h
+      97				
+Microsoft (R) Macro Assembler Version 5.10                  10/3/23 13:14:00
+                                                             Page     1-3
+
+
+      98 007D				ertek:
+      99 007D  2A 2A 2A 2A 24		    db '****$'
+     100				
+     101 0082				hiba: 
+     102 0082  4E 65 6D 20 6D 65	    db 'Nem megengedett karakter!$'
+     103       67 65 6E 67 65 64	
+     104       65 74 74 20 6B 61	
+     105       72 61 6B 74 65 72	
+     106       21 24			
+     107				
+     108 009C				uzenet:
+     109 009C  56 65 67 65 20 61	    db 'Vege a bevitelnek$'
+     110       20 62 65 76 69 74	
+     111       65 6C 6E 65 6B 24	
+     112 00AE				menupont:
+     113 00AE  31 3A 20 45 6C 73	    db '1: Elso szam bevitele, 2: Szam 
+					bevitele, ESC: kilepes$'
+     114       6F 20 73 7A 61 6D	
+     115       20 62 65 76 69 74	
+     116       65 6C 65 2C 20 32	
+     117       3A 20 53 7A 61 6D	
+     118       20 62 65 76 69 74	
+     119       65 6C 65 2C 20 45	
+     120       53 43 3A 20 6B 69	
+     121       6C 65 70 65 73 24	
+     122				
+     123 00E4				Code Ends
+     124				
+     125 0000				Data Segment
+     126 0000				Data Ends
+     127				
+     128 0000				Stack Segment
+     129 0000				Stack Ends
+     130				
+     131				    End Start
+Microsoft (R) Macro Assembler Version 5.10                  10/3/23 13:14:00
+                                                             Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+CODE . . . . . . . . . . . . . .  	00E4	PARA	NONE	
+DATA . . . . . . . . . . . . . .  	0000	PARA	NONE	
+STACK  . . . . . . . . . . . . .  	0000	PARA	NONE	
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+BEVITEL  . . . . . . . . . . . .  	L NEAR	000D	CODE
+
+ERTEK  . . . . . . . . . . . . .  	L NEAR	007D	CODE
+
+HIBA . . . . . . . . . . . . . .  	L NEAR	0082	CODE
+
+MENUPONT . . . . . . . . . . . .  	L NEAR	00AE	CODE
+
+PROGRAM_VEGE . . . . . . . . . .  	L NEAR	0078	CODE
+
+START  . . . . . . . . . . . . .  	L NEAR	0000	CODE
+
+TAROL  . . . . . . . . . . . . .  	L NEAR	0045	CODE
+
+UZENET . . . . . . . . . . . . .  	L NEAR	009C	CODE
+
+VIZSG  . . . . . . . . . . . . .  	L NEAR	002A	CODE
+
+@CPU . . . . . . . . . . . . . .  	TEXT  0101h		
+@FILENAME  . . . . . . . . . . .  	TEXT  HorImre2		
+@VERSION . . . . . . . . . . . .  	TEXT  510		
+
+
+    117 Source  Lines
+    117 Total   Lines
+     17 Symbols
+
+  47432 + 459796 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors
