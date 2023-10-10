@@ -1,0 +1,170 @@
+Microsoft (R) Macro Assembler Version 5.10                  10/10/23 11:08:5
+                                                             Page     1-1
+
+
+       1 0000				Code Segment
+       2				    assume CS: Code, DS: Data, SS: Stac
+					k
+       3				
+       4 0000				Start:
+       5 0000  BF 0082			    mov di, 82h
+       6 0003  B9 000A			    mov cx, 10 ;alapértelmezett V0
+       7				
+       8 0006				Keres:
+       9 0006  8A 15			    mov dl, [di]
+      10 0008  80 FA 2F			    cmp dl, "/"
+      11 000B  74 06			    jz ParamKezdet
+      12 000D  47			    inc di
+      13 000E  E2 F6			    loop Keres
+      14 0010  EB 19 90			    jmp Default
+      15				
+      16 0013				ParamKezdet:
+      17 0013  47			    inc di
+      18 0014  8A 1D			    mov bl, [di]
+      19 0016  80 EB 30			    sub bl, 48
+      20 0019  47			    inc di
+      21				
+      22 001A  8A 3D			    mov bh, [di]
+      23 001C  80 EF 30			    sub bh, 48
+      24				    
+      25 001F  B8 000A			    mov ax, 10
+      26 0022  F6 E3			    mul bl
+      27				
+      28 0024  02 C7			    add al, bh
+      29 0026  8B C8			    mov cx, ax
+      30				
+      31 0028  EB 04 90			    jmp Init
+      32				
+      33 002B				Default:
+      34 002B  B9 000A			    mov cx, 10
+      35				
+      36 002E				Init:
+      37 002E  B8 ---- R		    mov ax, Code
+      38 0031  8E D8			    mov ds, ax
+      39				
+      40 0033  33 FF			    xor di, di ;golyó sor pozíciója
+      41 0035  33 F6			    xor si, si ;golyó sor pozíciója
+      42				
+      43 0037  33 D2			    xor dx, dx
+      44 0039  52			    push dx ;veremben az idő (most 0)
+      45				
+      46 003A				Torles:
+      47 003A  B8 0003			    mov ax, 03h
+      48 003D  CD 10			    int 10h
+      49				
+      50 003F				Rajz:
+      51 003F  8B DF			    mov bx, di ;sor koordináta
+      52 0041  8A F3			    mov dh, bl ;di alsó bájtja tartal
+					mazza
+Microsoft (R) Macro Assembler Version 5.10                  10/10/23 11:08:5
+                                                             Page     1-2
+
+
+      53 0043  8B DE			    mov bx, si ;oszlop koordináta
+      54 0045  8A D3			    mov dl, bl ;si alsó bájtja tartal
+					mazza
+      55 0047  32 FF			    xor bh, bh
+      56 0049  B4 02			    mov ah, 02h
+      57 004B  CD 10			    int 10h
+      58				
+      59 004D  BA 007E R		    mov dx, offset labda
+      60 0050  B4 09			    mov ah, 09h
+      61 0052  CD 21			    int 21h
+      62				
+      63 0054  58			    pop ax ;idő a veremben
+      64 0055  50			    push ax
+      65				
+      66 0056  8A D8			    mov bl, al
+      67 0058  F6 E3			    mul bl
+      68 005A  D1 E8			    shr ax, 1 
+      69 005C  8B F8			    mov di, ax
+      70				
+      71 005E  58			    pop ax
+      72 005F  40			    inc ax
+      73 0060  50			    push ax
+      74 0061  48			    dec ax
+      75				
+      76 0062  8A D9			    mov bl, cl 
+      77 0064  F6 E3			    mul bl 
+      78 0066  8B F0			    mov si, ax
+      79				
+      80 0068  83 FE 50			    cmp si, 80 
+      81 006B  73 07			    jnc Var
+      82				
+      83 006D  83 FF 19			    cmp di, 25 
+      84 0070  73 02			    jnc Var
+      85				
+      86 0072  EB CB			    jmp Rajz
+      87				
+      88 0074				Var:
+      89 0074  33 C0			    xor ax, ax
+      90 0076  CD 16			    int 16h
+      91				
+      92 0078				Program_Vege:
+      93 0078  59			    pop cx
+      94 0079  B8 4C00			    mov ax, 4c00h
+      95 007C  CD 21			    int 21h
+      96				
+      97 007E  4F 24			labda db "O$"
+      98				
+      99 0080				Code Ends
+     100				
+     101 0000				Data Segment
+     102 0000				Data Ends
+     103				
+     104 0000				Stack Segment
+     105 0000				Stack Ends
+Microsoft (R) Macro Assembler Version 5.10                  10/10/23 11:08:5
+                                                             Page     1-3
+
+
+     106				
+     107				End Start
+Microsoft (R) Macro Assembler Version 5.10                  10/10/23 11:08:5
+                                                             Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+CODE . . . . . . . . . . . . . .  	0080	PARA	NONE	
+DATA . . . . . . . . . . . . . .  	0000	PARA	NONE	
+STACK  . . . . . . . . . . . . .  	0000	PARA	NONE	
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+DEFAULT  . . . . . . . . . . . .  	L NEAR	002B	CODE
+
+INIT . . . . . . . . . . . . . .  	L NEAR	002E	CODE
+
+KERES  . . . . . . . . . . . . .  	L NEAR	0006	CODE
+
+LABDA  . . . . . . . . . . . . .  	L BYTE	007E	CODE
+
+PARAMKEZDET  . . . . . . . . . .  	L NEAR	0013	CODE
+PROGRAM_VEGE . . . . . . . . . .  	L NEAR	0078	CODE
+
+RAJZ . . . . . . . . . . . . . .  	L NEAR	003F	CODE
+
+START  . . . . . . . . . . . . .  	L NEAR	0000	CODE
+
+TORLES . . . . . . . . . . . . .  	L NEAR	003A	CODE
+
+VAR  . . . . . . . . . . . . . .  	L NEAR	0074	CODE
+
+@CPU . . . . . . . . . . . . . .  	TEXT  0101h		
+@FILENAME  . . . . . . . . . . .  	TEXT  MAINEX		
+@VERSION . . . . . . . . . . . .  	TEXT  510		
+
+
+    107 Source  Lines
+    107 Total   Lines
+     18 Symbols
+
+  47412 + 461863 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors

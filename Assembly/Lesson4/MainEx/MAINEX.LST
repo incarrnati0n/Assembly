@@ -1,0 +1,187 @@
+Microsoft (R) Macro Assembler Version 5.10                  10/10/23 14:46:3
+                                                             Page     1-1
+
+
+       1 0000				Code Segment 
+       2				assume CS:Code, DS:Data, SS:Stack
+       3				
+       4 0000				Start:
+       5 0000  B8 ---- R		    mov ax, Code
+       6 0003  8E D8			    mov DS, ax
+       7				
+       8 0005  33 FF			    xor di, di
+       9 0007  BE 0001			    mov si, 1
+      10				
+      11 000A  33 D2			    xor dx, dx
+      12 000C  52			    push dx
+      13				
+      14 000D				Torles:
+      15 000D  B8 0003			    mov ax, 03h
+      16 0010  CD 10			    int 10h
+      17				
+      18 0012  8B D7			    mov dx, di
+      19 0014  8A F2			    mov dh, dl
+      20				
+      21 0016  B2 28			    mov dl, 40
+      22 0018  32 FF			    xor bh, bh
+      23 001A  B4 02			    mov ah, 02h
+      24 001C  CD 10			    int 10h
+      25				
+      26 001E  BA 008F R		    mov dx, offset labda
+      27 0021  B4 09			    mov ah, 09h
+      28 0023  CD 21			    int 21h
+      29				
+      30 0025				Kesleltet: 
+      31 0025  B4 01			    mov ah, 01h
+      32 0027  CD 16			    int 16h
+      33				    ;jnz Program_Vege
+      34				
+      35 0029  74 08			    jz nincsbill
+      36 002B  B4 00			    mov ah, 00h
+      37 002D  CD 16			    int 16h
+      38 002F  3C 1B			    cmp al, 27
+      39 0031  74 56			    jz Program_Vege
+      40				
+      41 0033				nincsbill:
+      42 0033  32 E4			    xor ah, ah
+      43 0035  CD 1A			    int 1ah
+      44				
+      45 0037  59			    pop cx
+      46 0038  51			    push cx
+      47 0039  8B C2			    mov ax, dx
+      48 003B  2B D1			    sub dx, cx
+      49 003D  50			    push ax
+      50				
+      51 003E  83 FF 05			    cmp di, 5
+      52 0041  73 05			    jnc Ido1
+      53 0043  B0 10			    mov al, 16
+      54 0045  EB 21 90			    jmp Beallit
+Microsoft (R) Macro Assembler Version 5.10                  10/10/23 14:46:3
+                                                             Page     1-2
+
+
+      55				
+      56 0048				Ido1:
+      57 0048  83 FF 0A			    cmp di, 10
+      58 004B  73 05			    jnc Ido2
+      59 004D  B0 08			    mov al, 8
+      60 004F  EB 17 90			    jmp Beallit
+      61				
+      62 0052				Ido2:
+      63 0052  83 FF 0F			    cmp di, 15
+      64 0055  73 05			    jnc Ido3
+      65 0057  B0 08			    mov al, 8
+      66 0059  EB 0D 90			    jmp Beallit
+      67				
+      68 005C				Ido3:
+      69 005C  83 FF 14			    cmp di, 20
+      70 005F  73 05			    jnc Ido4
+      71 0061  B0 02			    mov al, 2
+      72 0063  EB 03 90			    jmp Beallit
+      73				
+      74 0066				Ido4:
+      75 0066  B0 01			    mov al, 1
+      76				
+      77 0068				Beallit:
+      78				
+      79 0068  32 E4			    xor ah, ah
+      80 006A  3B D0			    cmp dx, ax
+      81				
+      82 006C  58			    pop ax
+      83				
+      84 006D  72 B6			    jc Kesleltet
+      85				
+      86 006F  59			    pop cx
+      87 0070  50			    push ax
+      88				
+      89 0071  83 FF 00			    cmp di, 0
+      90 0074  74 09			    jz Lefele
+      91				
+      92 0076  83 FF 18			    cmp di, 24
+      93 0079  74 09			    jz Felfele
+      94				
+      95 007B				Mozgas:
+      96 007B  03 FE			    add di, si
+      97 007D  EB 8E			    jmp Torles
+      98				
+      99 007F				Lefele:
+     100 007F  BE 0001			    mov si, 1
+     101 0082  EB F7			    jmp Mozgas
+     102				
+     103 0084				Felfele:
+     104 0084  BE FFFF			    mov si, -1
+     105 0087  EB F2			    jmp Mozgas
+     106				
+     107 0089				Program_Vege:
+     108 0089  59			    pop cx
+Microsoft (R) Macro Assembler Version 5.10                  10/10/23 14:46:3
+                                                             Page     1-3
+
+
+     109 008A  B8 4C00			    mov ax, 4c00h
+     110 008D  CD 21			    int 21h
+     111				
+     112 008F				labda:
+     113 008F  4F 24			    db 'O$'
+     114				
+     115 0091				Code Ends
+     116				
+     117 0000				Data Segment
+     118 0000				Data Ends
+     119				
+     120 0000				Stack Segment
+     121 0000				Stack Ends
+     122				    End Start
+Microsoft (R) Macro Assembler Version 5.10                  10/10/23 14:46:3
+                                                             Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+CODE . . . . . . . . . . . . . .  	0091	PARA	NONE	
+DATA . . . . . . . . . . . . . .  	0000	PARA	NONE	
+STACK  . . . . . . . . . . . . .  	0000	PARA	NONE	
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+BEALLIT  . . . . . . . . . . . .  	L NEAR	0068	CODE
+
+FELFELE  . . . . . . . . . . . .  	L NEAR	0084	CODE
+
+IDO1 . . . . . . . . . . . . . .  	L NEAR	0048	CODE
+IDO2 . . . . . . . . . . . . . .  	L NEAR	0052	CODE
+IDO3 . . . . . . . . . . . . . .  	L NEAR	005C	CODE
+IDO4 . . . . . . . . . . . . . .  	L NEAR	0066	CODE
+
+KESLELTET  . . . . . . . . . . .  	L NEAR	0025	CODE
+
+LABDA  . . . . . . . . . . . . .  	L NEAR	008F	CODE
+LEFELE . . . . . . . . . . . . .  	L NEAR	007F	CODE
+
+MOZGAS . . . . . . . . . . . . .  	L NEAR	007B	CODE
+
+NINCSBILL  . . . . . . . . . . .  	L NEAR	0033	CODE
+
+PROGRAM_VEGE . . . . . . . . . .  	L NEAR	0089	CODE
+
+START  . . . . . . . . . . . . .  	L NEAR	0000	CODE
+
+TORLES . . . . . . . . . . . . .  	L NEAR	000D	CODE
+
+@CPU . . . . . . . . . . . . . .  	TEXT  0101h		
+@FILENAME  . . . . . . . . . . .  	TEXT  mainex		
+@VERSION . . . . . . . . . . . .  	TEXT  510		
+
+
+    122 Source  Lines
+    122 Total   Lines
+     22 Symbols
+
+  47412 + 461863 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors
