@@ -1,0 +1,150 @@
+Microsoft (R) Macro Assembler Version 5.10                  10/10/23 20:59:5
+                                                             Page     1-1
+
+
+       1 0000				Code Segment 
+       2				assume CS:Code, DS:Data, SS:Stack
+       3				
+       4 0000				Start:
+       5 0000  B8 ---- R		    mov ax, Code
+       6 0003  8E D8			    mov DS, ax
+       7				
+       8 0005  33 FF			    xor di, di
+       9 0007  BE 001E			    mov si, 30 ;tick number
+      10				
+      11 000A  33 D2			    xor dx, dx
+      12 000C  52			    push dx
+      13				
+      14 000D  B3 39			    mov bl, '9'
+      15				
+      16 000F				Draw:
+      17 000F  B8 0003			    mov ax, 03h
+      18 0012  CD 10			    int 10h   ;video mode setup 80x25
+      19				
+      20 0014  B6 0A			    mov dh, 10 ;sor beállítás
+      21 0016  B2 28			    mov dl, 40 ;oszlop beállítás
+      22 0018  32 FF			    xor bh, bh ;videó lap beállítás
+					 mindig 0 és xor-al elérjük
+      23				
+      24 001A  B4 02			    mov ah, 02h
+      25 001C  CD 10			    int 10h ;kurzor pozíció beállít
+					ás
+      26				
+      27 001E  B4 02			    mov ah, 02
+      28 0020  8A D3			    mov dl, bl ;9 belemozgatása a bl-b
+					e és karakter kiiratása
+      29 0022  CD 21			    int 21h
+      30				
+      31 0024				Delay:
+      32				
+      33 0024  32 E4			    xor ah, ah
+      34				
+      35 0026  59			    pop cx
+      36 0027  51			    push cx
+      37				
+      38 0028  8B C2			    mov ax, dx
+      39 002A  2B D1			    sub dx, cx
+      40 002C  50			    push ax ;talán dx, de lehet hogy n
+					em
+      41				
+      42 002D  80 FB 09			    cmp bl, 9
+      43 0030  73 06			    jnc Time1
+      44 0032  83 EE 03			    sub si, 3
+      45 0035  EB 2B 90			    jmp Setup
+      46				
+      47 0038				Time1:
+      48 0038  FE CB			    dec bl
+      49 003A  80 FB 06			    cmp bl, 6
+      50 003D  7C 06			    jl Time2
+Microsoft (R) Macro Assembler Version 5.10                  10/10/23 20:59:5
+                                                             Page     1-2
+
+
+      51 003F  83 EE 06			    sub si, 6
+      52 0042  EB 1E 90			    jmp Setup
+      53				
+      54 0045				Time2:
+      55 0045  FE CB			    dec bl
+      56 0047  80 FB 04			    cmp bl, 4
+      57 004A  7C 06			    jl Time3
+      58 004C  83 EE 09			    sub si, 9     
+      59 004F  EB 11 90			    jmp Setup
+      60				
+      61 0052				Time3:
+      62 0052  FE CB			    dec bl
+      63 0054  80 FB 02			    cmp bl, 2
+      64 0057  7C 06			    jl Time4
+      65 0059  83 EE 0C			    sub si, 12
+      66 005C  EB 04 90			    jmp Setup
+      67				
+      68 005F				Time4:
+      69 005F  83 EE 01			    sub si, 1
+      70 0062				Setup:
+      71 0062  32 E4			    xor ah, ah
+      72 0064  3B D0			    cmp dx, ax
+      73				
+      74 0066  58			    pop ax
+      75				
+      76 0067  72 BB			    jc Delay
+      77				
+      78 0069  59			    pop cx
+      79 006A  50			    push ax
+      80				
+      81 006B  80 FB 00			    cmp bl, 0
+      82 006E  74 00			    jz Program_Vege
+      83				
+      84 0070				Program_Vege:
+      85 0070  59			    pop cx
+      86 0071  B8 4C00			    mov ax, 4c00h
+      87 0074  CD 21			    int 21h
+      88				
+      89 0076				Code Ends
+      90				
+      91 0000				Data Segment
+      92 0000				Data Ends
+      93				
+      94 0000				Stack Segment
+      95 0000				Stack Ends
+      96				    End Start
+Microsoft (R) Macro Assembler Version 5.10                  10/10/23 20:59:5
+                                                             Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+CODE . . . . . . . . . . . . . .  	0076	PARA	NONE	
+DATA . . . . . . . . . . . . . .  	0000	PARA	NONE	
+STACK  . . . . . . . . . . . . .  	0000	PARA	NONE	
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+DELAY  . . . . . . . . . . . . .  	L NEAR	0024	CODE
+DRAW . . . . . . . . . . . . . .  	L NEAR	000F	CODE
+
+PROGRAM_VEGE . . . . . . . . . .  	L NEAR	0070	CODE
+
+SETUP  . . . . . . . . . . . . .  	L NEAR	0062	CODE
+START  . . . . . . . . . . . . .  	L NEAR	0000	CODE
+
+TIME1  . . . . . . . . . . . . .  	L NEAR	0038	CODE
+TIME2  . . . . . . . . . . . . .  	L NEAR	0045	CODE
+TIME3  . . . . . . . . . . . . .  	L NEAR	0052	CODE
+TIME4  . . . . . . . . . . . . .  	L NEAR	005F	CODE
+
+@CPU . . . . . . . . . . . . . .  	TEXT  0101h		
+@FILENAME  . . . . . . . . . . .  	TEXT  subex		
+@VERSION . . . . . . . . . . . .  	TEXT  510		
+
+
+     96 Source  Lines
+     96 Total   Lines
+     17 Symbols
+
+  47508 + 461767 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors
