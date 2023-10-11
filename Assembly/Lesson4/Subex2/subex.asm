@@ -30,6 +30,7 @@ Draw:
 
 Delay:
     xor ah, ah
+    int 1ah
 
     pop cx
     push cx

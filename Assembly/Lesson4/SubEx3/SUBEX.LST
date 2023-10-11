@@ -1,0 +1,122 @@
+Microsoft (R) Macro Assembler Version 5.10                  10/11/23 14:47:3
+                                                             Page     1-1
+
+
+       1 0000				Code Segment
+       2				    assume CS:Code, DS:Data, SS:Stack
+       3 0000				Start:
+       4 0000  B8 ---- R		    mov ax, Code
+       5 0003  8E D8			    mov ds, ax
+       6				
+       7 0005  B3 39			    mov bl, '9'
+       8				
+       9 0007  EB 16 90			    jmp Readclock
+      10				
+      11 000A				Write:
+      12 000A  B8 0003			    mov ax, 03h
+      13 000D  CD 10			    int 10h
+      14				
+      15 000F  8A D3			    mov dl, bl
+      16 0011  B4 02			    mov ah, 02
+      17 0013  CD 21			    int 21h
+      18				
+      19 0015  FE CB			    dec bl
+      20				
+      21 0017  80 FB 30			    cmp bl, '0'
+      22 001A  75 03			    jnz Readclock
+      23				
+      24 001C  EB 2D 90			    jmp Terminate
+      25				
+      26 001F				Readclock:
+      27 001F  32 E4			    xor ah, ah 
+      28 0021  CD 1A			    int 1ah
+      29				
+      30 0023  59			    pop cx 
+      31 0024  51			    push cx 
+      32 0025  8B C2			    mov ax, dx 
+      33 0027  2B D1			    sub dx, cx 
+      34 0029  50			    push ax
+      35				
+      36 002A  80 FB 37			    cmp bl, '7'
+      37 002D  72 05			    jc Ido1 
+      38 002F  B0 10			    mov al, 16 
+      39 0031  EB 0D 90			    jmp Beallit
+      40				
+      41 0034				Ido1:
+      42 0034  80 FB 34			    cmp bl, '4' 
+      43 0037  72 05			    jc Ido2 
+      44 0039  B0 08			    mov al, 8 
+      45 003B  EB 03 90			    jmp Beallit
+      46				
+      47 003E				Ido2:
+      48 003E  B0 04			    mov al, 4 
+      49				
+      50 0040				Beallit:
+      51 0040  32 E4			    xor ah, ah 
+      52 0042  3B D0			    cmp dx, ax
+      53				
+      54 0044  58			    pop ax
+Microsoft (R) Macro Assembler Version 5.10                  10/11/23 14:47:3
+                                                             Page     1-2
+
+
+      55				
+      56 0045  72 D8			    jc Readclock
+      57				
+      58 0047  59			    pop cx
+      59 0048  50			    push ax
+      60				
+      61 0049  EB BF			    jmp Write
+      62				
+      63 004B				Terminate:
+      64 004B  B8 4C00			    mov ax, 4c00h
+      65 004E  CD 21			    int 21h
+      66				
+      67 0050				Code Ends
+      68 0000				Data Segment
+      69 0000				Data Ends
+      70 0000				Stack Segment
+      71 0000				Stack Ends
+      72				End Start
+Microsoft (R) Macro Assembler Version 5.10                  10/11/23 14:47:3
+                                                             Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+CODE . . . . . . . . . . . . . .  	0050	PARA	NONE	
+DATA . . . . . . . . . . . . . .  	0000	PARA	NONE	
+STACK  . . . . . . . . . . . . .  	0000	PARA	NONE	
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+BEALLIT  . . . . . . . . . . . .  	L NEAR	0040	CODE
+
+IDO1 . . . . . . . . . . . . . .  	L NEAR	0034	CODE
+IDO2 . . . . . . . . . . . . . .  	L NEAR	003E	CODE
+
+READCLOCK  . . . . . . . . . . .  	L NEAR	001F	CODE
+
+START  . . . . . . . . . . . . .  	L NEAR	0000	CODE
+
+TERMINATE  . . . . . . . . . . .  	L NEAR	004B	CODE
+
+WRITE  . . . . . . . . . . . . .  	L NEAR	000A	CODE
+
+@CPU . . . . . . . . . . . . . .  	TEXT  0101h		
+@FILENAME  . . . . . . . . . . .  	TEXT  subex		
+@VERSION . . . . . . . . . . . .  	TEXT  510		
+
+
+     72 Source  Lines
+     72 Total   Lines
+     15 Symbols
+
+  47508 + 463815 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors
