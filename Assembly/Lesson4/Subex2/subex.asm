@@ -29,7 +29,6 @@ Draw:
     int 21h
 
 Delay:
-
     xor ah, ah
 
     pop cx
@@ -38,48 +37,6 @@ Delay:
     mov ax, dx
     sub dx, cx
     push ax ;talán dx, de lehet hogy nem
-
-    cmp bl, 9
-    jnc Time1
-    sub si, 3
-    jmp Setup
-
-Time1:
-    dec bl
-    cmp bl, 6
-    jl Time2
-    sub si, 6
-    jmp Setup
-
-Time2:
-    dec bl
-    cmp bl, 4
-    jl Time3
-    sub si, 9     
-    jmp Setup
-
-Time3:
-    dec bl
-    cmp bl, 2
-    jl Time4
-    sub si, 12
-    jmp Setup
-
-Time4:
-    sub si, 1
-Setup:
-    xor ah, ah
-    cmp dx, ax
-
-    pop ax
-
-    jc Delay
-
-    pop cx
-    push ax
-
-    cmp bl, 0
-    jz Program_Vege
 
 Program_Vege:
     pop cx
