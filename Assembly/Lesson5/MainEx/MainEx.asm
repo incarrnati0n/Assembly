@@ -16,6 +16,10 @@ Keres:
 ParamKezdet:
     inc di
     mov bl, [di]
+
+    cmp bl, 63
+    jz Kiiras
+
     sub bl, 48
     inc di
 
@@ -29,6 +33,36 @@ ParamKezdet:
     mov cx, ax
 
     jmp Init
+
+Kiiras:
+    mov ax,Code
+    mov ds,ax
+
+    xor di,di
+    xor si,si
+
+    xor dx,dx
+		
+	mov ah,00
+	mov al,02
+	int 10h
+
+    mov dx, offset segitoszoveg
+    mov ah, 09h
+    int 21h
+
+    mov dl, 10
+    mov ah, 02h
+    int 21h
+    mov dl, 13
+    mov ah, 02h
+    int 21h 
+
+	mov dx, offset segitoszoveg2
+	mov ah,09h
+    int 21h
+
+    jmp Program_Vege
 
 Default:
     mov cx, 10
@@ -95,6 +129,11 @@ Program_Vege:
     int 21h
 
 labda db "O$"
+
+segitoszoveg db "A program alapvetoen 10-el dob$"
+
+segitoszoveg2 db "A program meghivasa utan adj meg egy parametert a / jel utan$"
+
 
 Code Ends
 

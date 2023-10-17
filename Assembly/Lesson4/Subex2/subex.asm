@@ -7,42 +7,36 @@ Start:
 
     xor di, di
     mov si, 30 ;tick number
-
     xor dx, dx
+
     push dx
 
     mov bl, '9'
 
 Draw:
     mov ax, 03h
-    int 10h   ;video mode setup 80x25
+    int 10h
 
-    mov dh, 10 ;sor beállítás
-    mov dl, 40 ;oszlop beállítás
-    xor bh, bh ;videó lap beállítás mindig 0 és xor-al elérjük
-
+    mov dh, 10
+    mov dl, 40
+    xor bh, bh
     mov ah, 02h
-    int 10h ;kurzor pozíció beállítás
+    int 10h
 
     mov ah, 02
-    mov dl, bl ;9 belemozgatása a bl-be és karakter kiiratása
+    mov dl, bl
     int 21h
 
 Delay:
     xor ah, ah
-    int 1ah
-
     pop cx
     push cx
 
     mov ax, dx
     sub dx, cx
-    push ax ;talán dx, de lehet hogy nem
+    push dx
 
-Program_Vege:
-    pop cx
-    mov ax, 4c00h
-    int 21h
+    
 
 Code Ends
 
