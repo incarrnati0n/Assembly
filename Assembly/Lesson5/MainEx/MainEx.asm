@@ -15,7 +15,7 @@ Keres:
 
 ParamKezdet:
     inc di
-    mov bl, [di]
+    mov bl, [di] 
 
     cmp bl, 63
     jz Kiiras

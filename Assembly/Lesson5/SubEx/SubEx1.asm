@@ -22,6 +22,12 @@ ElsoSzam:
     cmp dl, 63
     jz Kiiras
 
+    cmp dl, 48
+    jl EzNemSzam
+
+    cmp dl, 57
+    jg EzNemSzam
+
     jmp ParamKezdet
 
 Atugor:
@@ -44,6 +50,11 @@ ParamKezdet:
     mov cx, ax
 
     jmp Init
+
+EzNemSzam:
+    mov dx, offset error
+    mov ah, 09h
+    int 21h
 
 Kiiras:
     mov ax,Code
@@ -146,6 +157,8 @@ labda db "O$"
 segitoszoveg db "A program alapvetoen 10-el dob$"
 
 segitoszoveg2 db "A program meghivasa utan adj meg egy parametert a / jel utan$"
+
+error db "Ez nem szam!$"
 
 Code Ends
 
