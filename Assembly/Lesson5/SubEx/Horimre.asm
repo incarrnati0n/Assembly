@@ -19,17 +19,39 @@ ElsoSzam:
     cmp dl, '0'
     jz Atugor
 
-    cmp dl, 63
+    cmp dl, '?'
     jz Kiiras
 
-    cmp dl, 48
-    jl EzNemSzam
+    cmp dl, '0'
+    jc NemSzam
 
-    cmp dl, 57
-    jg EzNemSzam
+    cmp dl, ':'
+    jnc NemSzam
 
     jmp ParamKezdet
 
+NemSzam:
+    mov ax,Code
+    mov ds,ax
+
+    xor di,di
+    xor si,si
+
+    xor dx,dx
+		
+	mov ah,00
+	mov al,02
+	int 10h
+
+    mov dx, offset error
+    mov ah, 09h
+    int 21h
+
+    xor ax, ax
+    int 16h
+
+    jmp Default
+    
 Atugor:
     inc di
     jmp ParamKezdet
@@ -50,11 +72,6 @@ ParamKezdet:
     mov cx, ax
 
     jmp Init
-
-EzNemSzam:
-    mov dx, offset error
-    mov ah, 09h
-    int 21h
 
 Kiiras:
     mov ax,Code
@@ -85,7 +102,6 @@ Kiiras:
     int 21h
 
     jmp Program_Vege
-
 
 
 Default:
@@ -135,6 +151,9 @@ Rajz:
     mul bl 
     mov si, ax
 
+    shr di, 1
+    shr si, 1
+
     cmp si, 80 
     jnc Var
 
@@ -158,7 +177,7 @@ segitoszoveg db "A program alapvetoen 10-el dob$"
 
 segitoszoveg2 db "A program meghivasa utan adj meg egy parametert a / jel utan$"
 
-error db "Ez nem szam!$"
+error db "Nem szam a parameter!$"
 
 Code Ends
 
