@@ -1,0 +1,166 @@
+Microsoft (R) Macro Assembler Version 5.10                  10/14/23 13:41:1
+                                                             Page     1-1
+
+
+       1 0000				Code Segment
+       2				    assume CS:Code, DS:Data, SS:Stack
+       3 0000				Start:
+       4 0000  B8 ---- R		    mov ax, Code
+       5 0003  8E D8			    mov ds, ax
+       6				
+       7 0005  B8 0003			    mov ax, 03h
+       8 0008  CD 10			    int 10h
+       9				    
+      10				
+      11 000A  32 DB			    xor bl, bl
+      12 000C  33 FF			    xor di, di
+      13 000E  33 D2			    xor dx, dx
+      14 0010  52			    push dx
+      15				
+      16 0011  BE 0002			    mov si, 2
+      17				
+      18 0014				Kiiro:
+      19 0014  8B FA			    mov di, dx
+      20 0016  32 FF			    xor bh, bh
+      21 0018  B4 02			    mov ah, 02h
+      22 001A  CD 10			    int 10h
+      23				
+      24				
+      25 001C  BA 002A			    mov dx, '*'
+      26 001F  B4 02			    mov ah, 02h
+      27 0021  CD 21			    int 21h
+      28				
+      29 0023				Delay:
+      30 0023  B4 01			    mov ah, 01h
+      31 0025  CD 16			    int 16h
+      32 0027  74 08			    jz Oraido
+      33				
+      34 0029  B4 00			    mov ah, 00h
+      35 002B  CD 16			    int 16h
+      36 002D  3C 1B			    cmp al, 27
+      37 002F  74 57			    jz Program_Vege
+      38				
+      39 0031				Oraido:
+      40 0031  32 E4			    xor ah, ah
+      41 0033  CD 1A			    int 1ah
+      42				
+      43 0035  59			    pop cx
+      44 0036  51			    push cx
+      45 0037  8B C2			    mov ax, dx
+      46 0039  2B D1			    sub dx, cx
+      47 003B  50			    push ax
+      48				
+      49 003C				Keresztezodes:
+      50 003C  8B C6			    mov ax, si
+      51 003E  3B D0			    cmp dx, ax
+      52				
+      53 0040  58			    pop ax
+      54				
+Microsoft (R) Macro Assembler Version 5.10                  10/14/23 13:41:1
+                                                             Page     1-2
+
+
+      55 0041  72 E0			    jc Delay
+      56				
+      57 0043  59			    pop cx
+      58 0044  50			    push ax
+      59				
+      60 0045  8B D7			    mov dx, di
+      61				
+      62 0047  80 FB 00			    cmp bl, 0
+      63 004A  74 0F			    jz Jobbra
+      64 004C  80 FB 01			    cmp bl, 1
+      65 004F  74 14			    jz Lefele
+      66 0051  80 FB 02			    cmp bl, 2
+      67 0054  74 19			    jz Balra
+      68 0056  80 FB 03			    cmp bl, 3
+      69 0059  74 1E			    jz Felfele
+      70				
+      71 005B				Jobbra:
+      72 005B  80 C2 01			    add dl, 1
+      73 005E  80 FA 4F			    cmp dl, 79
+      74 0061  74 20			    jz IranyValtoztat
+      75 0063  EB AF			    jmp Kiiro
+      76				
+      77 0065				Lefele:
+      78 0065  80 C6 01			    add dh, 1
+      79 0068  80 FE 17			    cmp dh, 23
+      80 006B  74 16			    jz IranyValtoztat
+      81 006D  EB A5			    jmp Kiiro
+      82 006F				Balra:
+      83 006F  80 EA 01			    sub dl, 1
+      84 0072  80 FA 00			    cmp dl, 0
+      85 0075  74 0C			    jz IranyValtoztat
+      86 0077  EB 9B			    jmp Kiiro
+      87				
+      88 0079				Felfele:
+      89 0079  80 EE 01			    sub dh, 1
+      90 007C  80 FE 00			    cmp dh, 0
+      91 007F  74 07			    jz Program_Vege
+      92 0081  EB 91			    jmp Kiiro
+      93				
+      94 0083				IranyValtoztat:
+      95 0083  80 C3 01			    add bl, 1
+      96 0086  EB 8C			    jmp Kiiro
+      97				
+      98 0088				Program_Vege:
+      99 0088  59			    pop cx
+     100 0089  B8 4C00			    mov ax, 4c00h
+     101 008C  CD 21			    int 21h
+     102				
+     103 008E				Code Ends
+     104 0000				Data Segment
+     105 0000				Data Ends
+     106 0000				Stack Segment
+     107 0000				Stack Ends
+     108				End Start
+Microsoft (R) Macro Assembler Version 5.10                  10/14/23 13:41:1
+                                                             Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+CODE . . . . . . . . . . . . . .  	008E	PARA	NONE	
+DATA . . . . . . . . . . . . . .  	0000	PARA	NONE	
+STACK  . . . . . . . . . . . . .  	0000	PARA	NONE	
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+BALRA  . . . . . . . . . . . . .  	L NEAR	006F	CODE
+
+DELAY  . . . . . . . . . . . . .  	L NEAR	0023	CODE
+
+FELFELE  . . . . . . . . . . . .  	L NEAR	0079	CODE
+
+IRANYVALTOZTAT . . . . . . . . .  	L NEAR	0083	CODE
+
+JOBBRA . . . . . . . . . . . . .  	L NEAR	005B	CODE
+
+KERESZTEZODES  . . . . . . . . .  	L NEAR	003C	CODE
+KIIRO  . . . . . . . . . . . . .  	L NEAR	0014	CODE
+
+LEFELE . . . . . . . . . . . . .  	L NEAR	0065	CODE
+
+ORAIDO . . . . . . . . . . . . .  	L NEAR	0031	CODE
+
+PROGRAM_VEGE . . . . . . . . . .  	L NEAR	0088	CODE
+
+START  . . . . . . . . . . . . .  	L NEAR	0000	CODE
+
+@CPU . . . . . . . . . . . . . .  	TEXT  0101h		
+@FILENAME  . . . . . . . . . . .  	TEXT  horimre		
+@VERSION . . . . . . . . . . . .  	TEXT  510		
+
+
+    108 Source  Lines
+    108 Total   Lines
+     19 Symbols
+
+  47490 + 461785 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors
