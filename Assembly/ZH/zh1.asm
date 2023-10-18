@@ -1,10 +1,10 @@
 ;==========================================================================
-; Processzorok utasítás szintû kezelése
+; Processzorok utasï¿½tï¿½s szintï¿½ kezelï¿½se
 ; Nappali
 ;
-; Név: 
-; Neptun kód: 
-; Dátum: 
+; Nï¿½v: 
+; Neptun kï¿½d: 
+; Dï¿½tum: 
 ; 
 ;==========================================================================
 
@@ -19,21 +19,21 @@ Feladat_1:
 ;===========================================================================
 ; 1. feladat:
 ;
-; Határozza meg a (4^N / 8) függvény értékét, ahol az N egy a billentyûzetrõl 
-; beolvasott pozitív egész szám, melynek értékei csak az alábbiak lehetnek:
+; Hatï¿½rozza meg a (4^N / 8) fï¿½ggvï¿½ny ï¿½rtï¿½kï¿½t, ahol az N egy a billentyï¿½zetrï¿½l 
+; beolvasott pozitï¿½v egï¿½sz szï¿½m, melynek ï¿½rtï¿½kei csak az alï¿½bbiak lehetnek:
 ;
 ; 		1, 2, 3
 ;
-; A leütött billentyût be kell helyettesíteni az N helyére, majd az eredményt 
-; ki kell írni a kettõspont után! 
+; A leï¿½tï¿½tt billentyï¿½t be kell helyettesï¿½teni az N helyï¿½re, majd az eredmï¿½nyt 
+; ki kell ï¿½rni a kettï¿½spont utï¿½n! 
 ; 
-; pl: (4^3 / 8)  = eredmény 8:
-; 1. feladat: függvény eredmenye: 8
+; pl: (4^3 / 8)  = eredmï¿½ny 8:
+; 1. feladat: fï¿½ggvï¿½ny eredmenye: 8
 ;
-; Nem megengedett karakter esetén írja ki, az alábbit: 
-;  		"Hibás karakter!"
+; Nem megengedett karakter esetï¿½n ï¿½rja ki, az alï¿½bbit: 
+;  		"Hibï¿½s karakter!"
 ; (Csak egyszer fusson le)
-; Használja a program elõre megírt üzenetét (hibas_karakter)!
+; Hasznï¿½lja a program elï¿½re megï¿½rt ï¿½zenetï¿½t (hibas_karakter)!
 ;
 ; 15 perc, 0 vagy 1 pont
 ;===========================================================================
@@ -52,13 +52,50 @@ Torles:
 	xor di, di
 	xor si, si
 ; --------------------------------------------------------------------------
-; Ide írja a megfelelõ programrészt!
+; Ide ï¿½rja a megfelelï¿½ programrï¿½szt!
 
+	jmp Beker
+
+Bekerhiba:
+	mov dx, offset hibas_karakter
+	mov ah, 09h
+	int 21h
+
+Beker:
+	xor ax, ax
+	int 16h
+
+	cmp al, '1'
+	jl Bekerhiba
+
+	cmp al, '3'
+	jg Bekerhiba
+
+	sub al, '0'
+
+	mov cl, al
+
+	mov al, 1
+	mov bl, 4
+
+Szorzo:
+	mul bl
+	loop Szorzo
+
+	mov cl, 8
+	div cl
+
+	mov bl, al
+	add bl, '0'
+	mov dl, bl
+
+	mov ah, 02h
+	int 21h
 
 
 ; Eddig
 ; -------------------------------------------------------------------------- 
-; Várakozás billentyû leütésre
+; Vï¿½rakozï¿½s billentyï¿½ leï¿½tï¿½sre
 	xor	ax, ax
 	int	16h
 	
@@ -66,13 +103,13 @@ Feladat_2:
 ;===========================================================================
 ; 2. feladat:
 ;
-; Számolja meg az alábbi mondat szavait és írja ki a  képernyõre:
+; Szï¿½molja meg az alï¿½bbi mondat szavait ï¿½s ï¿½rja ki a  kï¿½pernyï¿½re:
 ;
 ;	"Az assembly nyelv nem keverendo ossze a gepi koddal!"
 ;
-; Feltételezzük, hogy a magyar helyesírási szabályoknak megfelelõen a szavak 
-; között mindig 1 szóköz van!
-; Használja a program elõre megírt üzenetét (mondat)!
+; Feltï¿½telezzï¿½k, hogy a magyar helyesï¿½rï¿½si szabï¿½lyoknak megfelelï¿½en a szavak 
+; kï¿½zï¿½tt mindig 1 szï¿½kï¿½z van!
+; Hasznï¿½lja a program elï¿½re megï¿½rt ï¿½zenetï¿½t (mondat)!
 ;
 ; 15 perc, 0 vagy 1 pont
 ;===========================================================================
@@ -112,13 +149,41 @@ Feladat_2:
 	
 
 ; --------------------------------------------------------------------------
-; Ide írja a megfelelõ programrészt!
+; Ide ï¿½rja a megfelelï¿½ programrï¿½szt!
 
+	mov di, offset mondat
+
+	mov bl, 1
+
+Kereso:
+	mov al, [di]
+
+	cmp al, '$'
+	jz Vege
+
+	cmp al, ' '
+	jz Plusz1
+
+	inc di
+
+	jmp Kereso
+
+Plusz1:
+	inc bl
+	inc di
+	jmp Kereso
+
+Vege:
+	add bl, '0'
+	mov dl, bl
+
+	mov ah, 02h
+	int 21h
 
 
 ; Eddig
 ; --------------------------------------------------------------------------
-; Várakozás billentyû leütésre
+; Vï¿½rakozï¿½s billentyï¿½ leï¿½tï¿½sre
 	xor ax, ax
 	int 16h
 	
@@ -126,9 +191,9 @@ Feladat_2:
 Feladat_3:
 ;===========================================================================
 ; 3. feladat:
-; Döntse el a megnyomott bilentyûrõl, hogy számot, vagy egyéb karaktert
-; "vitt" be! A ciklusból CSAK AZ "ESC" billentyû leütésével lehet kilépni.
-; Használja a program elõre megírt üzeneteit (uzenetszam, uzenetnemszam)!
+; Dï¿½ntse el a megnyomott bilentyï¿½rï¿½l, hogy szï¿½mot, vagy egyï¿½b karaktert
+; "vitt" be! A ciklusbï¿½l CSAK AZ "ESC" billentyï¿½ leï¿½tï¿½sï¿½vel lehet kilï¿½pni.
+; Hasznï¿½lja a program elï¿½re megï¿½rt ï¿½zeneteit (uzenetszam, uzenetnemszam)!
 ;
 ; 15 perc, 0 vagy 1 pont
 ;===========================================================================
@@ -147,13 +212,43 @@ Feladat_3:
 	xor si, si
 	
 ; --------------------------------------------------------------------------
-; Ide írja a megfelelõ programrészt!
+; Ide ï¿½rja a megfelelï¿½ programrï¿½szt!
+
+Beker3:
+	xor ax, ax
+	int 16h 
+
+	cmp al, 27
+	jz Vege3
+
+	cmp al, '0'
+	jl NemSzam
+
+	cmp al, '9'
+	jg NemSzam
 
 
+
+	jmp EzSzam
+
+NemSzam:
+	mov dx, offset uzenetnemszam
+	mov ah, 09h
+	int 21h
+
+	jmp Beker3
+
+EzSzam:
+	mov dx, offset uzenetszam
+	mov ah, 09h
+	int 21h
+
+	jmp Beker3
 
 ; Eddig
 ; --------------------------------------------------------------------------
-; Várakozás billentyû leütésre
+; Vï¿½rakozï¿½s billentyï¿½ leï¿½tï¿½sre
+Vege3:
 	xor ax, ax
 	int 16h	
 	
