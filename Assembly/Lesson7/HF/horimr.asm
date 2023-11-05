@@ -5,8 +5,16 @@ Code    Segment
 Start:
 	mov	ax, Code
 	mov DS, AX		
+
 	mov cx, 100
 	mov dx, 100
+
+	push dx
+	push cx
+
+	mov cx, 200
+	mov dx, 200
+
 	push dx
 	push cx
 
@@ -33,6 +41,8 @@ Rajz:
 	jnc	Pixel
 	inc ah
 
+	jmp Pixel
+
 Rajz2:
 	pop cx
 
@@ -50,6 +60,8 @@ Rajz2:
 	jnc	Pixel2
 	inc ah
 
+	jmp Pixel2
+
 Pixel:
 	push dx
 	push cx
@@ -57,6 +69,7 @@ Pixel:
 	mov	al, 1
 	mov	es:[di], al
 
+	jmp Var
 Pixel2:
 	push dx
 	push cx
@@ -64,6 +77,7 @@ Pixel2:
 	mov al, 4
 	mov es:[di], al
 
+	jmp Var
 Var:
 	xor	ax,ax
 	int	16h
@@ -82,28 +96,21 @@ Var:
 
 	cmp	ah, 80
 	jz	Lefele
+	
+	cmp al, 'a'
+	jz Balra2
+
+	cmp al, 's'
+	jz Lefele2
+
+	cmp al, 'w'
+	jz Felfele2
+
+	cmp al, 'd'
+	jz Jobbra2
 
 	jmp	Var
 
-Var2:
-
-	cmp	al, 27
-	jz	JumpHelper
-
-	cmp ah, 61
-	jz Balra2
-
-	cmp ah, 73
-	jz Lefele2
-
-	cmp ah, 77
-	jz Felfele2
-
-	cmp ah, 64
-	jz Jobbra2
-
-	jmp Var2
-	
 Balra:
 	pop cx
 	pop	dx

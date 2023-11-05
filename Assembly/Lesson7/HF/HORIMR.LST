@@ -1,4 +1,4 @@
-Microsoft (R) Macro Assembler Version 5.10                  11/5/23 10:46:40
+Microsoft (R) Macro Assembler Version 5.10                  11/5/23 12:29:55
                                                              Page     1-1
 
 
@@ -9,221 +9,236 @@
        5 0000				Start:
        6 0000  B8 ---- R			mov	ax, Code
        7 0003  8E D8				mov DS, AX		
-       8 0005  B9 0064				mov cx, 100
-       9 0008  BA 0064				mov dx, 100
-      10 000B  52				push dx
-      11 000C  51				push cx
-      12				
-      13 000D  B8 0013				mov ax, 13h
-      14 0010  CD 10				int	10h
-      15					
-      16 0012  B8 A000				mov	ax, 0a000h
-      17 0015  8E C0				mov es, ax
-      18				
-      19 0017				Rajz:
-      20 0017  59				pop cx
+       8				
+       9				
+      10 0005				ElsoCsik:
+      11				
+      12 0005  B9 0064				mov cx, 100
+      13 0008  BA 0064				mov dx, 100
+      14				
+      15 000B  52				push dx
+      16 000C  51				push cx
+      17				
+      18 000D				MasodikCsik:
+      19 000D  B9 00C8				mov cx, 200
+      20 0010  BA 00C8				mov dx, 200
       21				
-      22 0018  33 C0				xor	ax, ax
-      23 001A  8B C1				mov	ax, cx
-      24						
-      25 001C  51				push cx
-      26						
-      27 001D  BB 0140				mov	bx, 320
-      28 0020  F7 E3				mul	bx
-      29						
-      30 0022  59				pop cx
-      31 0023  5A				pop	dx
-      32 0024  03 C2				add	ax, dx
-      33 0026  73 15				jnc	Pixel
-      34 0028  FE C4				inc ah
-      35				
-      36 002A				Rajz2:
-      37 002A  59				pop cx
-      38				
-      39 002B  33 C0				xor	ax, ax
-      40 002D  8B C1				mov	ax, cx
+      22 0013  52				push dx
+      23 0014  51				push cx
+      24				
+      25 0015  B8 0013				mov ax, 13h
+      26 0018  CD 10				int	10h
+      27					
+      28 001A  B8 A000				mov	ax, 0a000h
+      29 001D  8E C0				mov es, ax
+      30				
+      31 001F				Rajz:
+      32 001F  59				pop cx
+      33				
+      34 0020  33 C0				xor	ax, ax
+      35 0022  8B C1				mov	ax, cx
+      36						
+      37 0024  51				push cx
+      38						
+      39 0025  BB 0140				mov	bx, 320
+      40 0028  F7 E3				mul	bx
       41						
-      42 002F  51				push cx
-      43						
-      44 0030  BB 0140				mov	bx, 320
-      45 0033  F7 E3				mul	bx
-      46						
-      47 0035  59				pop cx
-      48 0036  5A				pop	dx
-      49 0037  03 C2				add	ax, dx
-      50 0039  73 0B				jnc	Pixel2
-      51 003B  FE C4				inc ah
+      42 002A  59				pop cx
+      43 002B  5A				pop	dx
+      44 002C  03 C2				add	ax, dx
+      45 002E  73 1B				jnc	Pixel
+      46 0030  FE C4				inc ah
+      47				
+      48 0032  EB 17 90				jmp Pixel
+      49				
+      50 0035				Rajz2:
+      51 0035  59				pop cx
       52				
-      53 003D				Pixel:
-      54 003D  52				push dx
-Microsoft (R) Macro Assembler Version 5.10                  11/5/23 10:46:40
+      53 0036  33 C0				xor	ax, ax
+      54 0038  8B C1				mov	ax, cx
+Microsoft (R) Macro Assembler Version 5.10                  11/5/23 12:29:55
                                                              Page     1-2
 
 
-      55 003E  51				push cx
-      56 003F  8B F8				mov	di,ax
-      57 0041  B0 01				mov	al, 1
-      58 0043  26: 88 05			mov	es:[di], al
-      59				
-      60 0046				Pixel2:
-      61 0046  52				push dx
-      62 0047  51				push cx
-      63 0048  8B F8				mov di, ax
-      64 004A  B0 04				mov al, 4
-      65 004C  26: 88 05			mov es:[di], al
+      55						
+      56 003A  51				push cx
+      57						
+      58 003B  BB 0140				mov	bx, 320
+      59 003E  F7 E3				mul	bx
+      60						
+      61 0040  59				pop cx
+      62 0041  5A				pop	dx
+      63 0042  03 C2				add	ax, dx
+      64 0044  73 11				jnc	Pixel2
+      65 0046  FE C4				inc ah
       66				
-      67 004F				Var:
-      68 004F  33 C0				xor	ax,ax
-      69 0051  CD 16				int	16h
-      70					
-      71 0053  3C 1B				cmp	al, 27
-      72 0055  74 62				jz	JumpHelper
-      73					
-      74 0057  80 FC 4B				cmp	ah, 75
-      75 005A  74 2B				jz	Balra
-      76						
-      77 005C  80 FC 4D				cmp	ah, 77
-      78 005F  74 32				jz	Jobbra
-      79						
-      80 0061  80 FC 48				cmp	ah, 72
-      81 0064  74 3A				jz	Felfele
-      82				
-      83 0066  80 FC 50				cmp	ah, 80
-      84 0069  74 41				jz	Lefele
-      85				
-      86 006B  EB E2				jmp	Var
-      87				
-      88 006D				Var2:
-      89				
-      90 006D  3C 1B				cmp	al, 27
-      91 006F  74 48				jz	JumpHelper
-      92				
-      93 0071  80 FC 3D				cmp ah, 61
-      94 0074  74 46				jz Balra2
-      95				
-      96 0076  80 FC 49				cmp ah, 73
-      97 0079  74 66				jz Lefele2
-      98				
-      99 007B  80 FC 4D				cmp ah, 77
-     100 007E  74 55				jz Felfele2
-     101				
-     102 0080  80 FC 40				cmp ah, 64
-     103 0083  74 43				jz Jobbra2
-     104				
-     105 0085  EB E6				jmp Var2
-     106					
-     107 0087				Balra:
-     108 0087  59				pop cx
-Microsoft (R) Macro Assembler Version 5.10                  11/5/23 10:46:40
+      67 0048  EB 0D 90				jmp Pixel2
+      68				
+      69 004B				Pixel:
+      70 004B  52				push dx
+      71 004C  51				push cx
+      72 004D  8B F8				mov	di,ax
+      73 004F  B0 01				mov	al, 1
+      74 0051  26: 88 05			mov	es:[di], al
+      75				
+      76 0054  EB 0D 90				jmp Var
+      77 0057				Pixel2:
+      78 0057  52				push dx
+      79 0058  51				push cx
+      80 0059  8B F8				mov di, ax
+      81 005B  B0 04				mov al, 4
+      82 005D  26: 88 05			mov es:[di], al
+      83				
+      84 0060  EB 01 90				jmp Var
+      85 0063				Var:
+      86 0063  33 C0				xor	ax,ax
+      87 0065  CD 16				int	16h
+      88					
+      89 0067  3C 1B				cmp	al, 27
+      90 0069  74 58				jz	JumpHelper
+      91					
+      92 006B  80 FC 4B				cmp	ah, 75
+      93 006E  74 21				jz	Balra
+      94						
+      95 0070  80 FC 4D				cmp	ah, 77
+      96 0073  74 28				jz	Jobbra
+      97						
+      98 0075  80 FC 48				cmp	ah, 72
+      99 0078  74 30				jz	Felfele
+     100				
+     101 007A  80 FC 50				cmp	ah, 80
+     102 007D  74 37				jz	Lefele
+     103					
+     104 007F  3C 61				cmp al, 'a'
+     105 0081  74 43				jz Balra2
+     106				
+     107 0083  3C 73				cmp al, 's'
+     108 0085  74 64				jz Lefele2
+Microsoft (R) Macro Assembler Version 5.10                  11/5/23 12:29:55
                                                              Page     1-3
 
 
-     109 0088  5A				pop	dx
-     110 0089  4A				dec	dx
-     111 008A  83 FA 01				cmp	dx, 1
-     112 008D  73 5F				jnc Tarol
-     113 008F  42				inc dx
-     114 0090  EB 5C 90				jmp	Tarol
-     115					
-     116 0093				Jobbra:
-     117 0093  59				pop	cx
-     118 0094  5A				pop	dx
-     119 0095  42				inc dx
-     120 0096  81 FA 0140			cmp	dx, 320
-     121 009A  72 52				jc	Tarol
-     122 009C  4A				dec	dx
-     123 009D  EB 4F 90				jmp	Tarol
-     124					
-     125 00A0				Felfele:
-     126 00A0  59				pop	cx
-     127 00A1  5A				pop	dx
-     128 00A2  49				dec	cx
-     129 00A3  83 F9 01				cmp	cx, 1
-     130 00A6  73 46				jnc Tarol
-     131 00A8  41				inc	cx
-     132 00A9  EB 43 90				jmp	Tarol
-     133				
-     134 00AC				Lefele:
-     135 00AC  59				pop	cx
-     136 00AD  5A				pop	dx
-     137 00AE  41				inc	cx
-     138 00AF  81 F9 00C8			cmp	cx, 200
-     139 00B3  72 39				jc	Tarol
-     140 00B5  49				dec	cx
-     141 00B6  EB 36 90				jmp	Tarol
-     142				
-     143 00B9				JumpHelper:
-     144 00B9  EB 3D 90				jmp Program_Vege
-     145				
-     146 00BC				Balra2:
-     147 00BC  59				pop cx
-     148 00BD  5A				pop	dx
-     149 00BE  4A				dec	dx
-     150 00BF  83 FA 01				cmp	dx, 1
-     151 00C2  73 2F				jnc Tarol2
-     152 00C4  42				inc dx
-     153 00C5  EB 2C 90				jmp	Tarol2
-     154					
-     155 00C8				Jobbra2:
-     156 00C8  59				pop	cx
-     157 00C9  5A				pop	dx
-     158 00CA  42				inc dx
-     159 00CB  81 FA 0140			cmp	dx, 320
-     160 00CF  72 22				jc	Tarol2
-     161 00D1  4A				dec	dx
-     162 00D2  EB 1F 90				jmp	Tarol2
-Microsoft (R) Macro Assembler Version 5.10                  11/5/23 10:46:40
+     109				
+     110 0087  3C 77				cmp al, 'w'
+     111 0089  74 54				jz Felfele2
+     112				
+     113 008B  3C 64				cmp al, 'd'
+     114 008D  74 43				jz Jobbra2
+     115				
+     116 008F  EB D2				jmp	Var
+     117				
+     118 0091				Balra:
+     119 0091  59				pop cx
+     120 0092  5A				pop	dx
+     121 0093  4A				dec	dx
+     122 0094  83 FA 01				cmp	dx, 1
+     123 0097  73 5F				jnc Tarol
+     124 0099  42				inc dx
+     125 009A  EB 5C 90				jmp	Tarol
+     126					
+     127 009D				Jobbra:
+     128 009D  59				pop	cx
+     129 009E  5A				pop	dx
+     130 009F  42				inc dx
+     131 00A0  81 FA 0140			cmp	dx, 320
+     132 00A4  72 52				jc	Tarol
+     133 00A6  4A				dec	dx
+     134 00A7  EB 4F 90				jmp	Tarol
+     135					
+     136 00AA				Felfele:
+     137 00AA  59				pop	cx
+     138 00AB  5A				pop	dx
+     139 00AC  49				dec	cx
+     140 00AD  83 F9 01				cmp	cx, 1
+     141 00B0  73 46				jnc Tarol
+     142 00B2  41				inc	cx
+     143 00B3  EB 43 90				jmp	Tarol
+     144				
+     145 00B6				Lefele:
+     146 00B6  59				pop	cx
+     147 00B7  5A				pop	dx
+     148 00B8  41				inc	cx
+     149 00B9  81 F9 00C8			cmp	cx, 200
+     150 00BD  72 39				jc	Tarol
+     151 00BF  49				dec	cx
+     152 00C0  EB 36 90				jmp	Tarol
+     153				
+     154 00C3				JumpHelper:
+     155 00C3  EB 3D 90				jmp Program_Vege
+     156				
+     157 00C6				Balra2:
+     158 00C6  59				pop cx
+     159 00C7  5A				pop	dx
+     160 00C8  4A				dec	dx
+     161 00C9  83 FA 01				cmp	dx, 1
+     162 00CC  73 2F				jnc Tarol2
+Microsoft (R) Macro Assembler Version 5.10                  11/5/23 12:29:55
                                                              Page     1-4
 
 
-     163					
-     164 00D5				Felfele2:
-     165 00D5  59				pop	cx
-     166 00D6  5A				pop	dx
-     167 00D7  49				dec	cx
-     168 00D8  83 F9 01				cmp	cx, 1
-     169 00DB  73 16				jnc Tarol2
-     170 00DD  41				inc	cx
-     171 00DE  EB 13 90				jmp	Tarol2
-     172				
-     173 00E1				Lefele2:
-     174 00E1  59				pop	cx
-     175 00E2  5A				pop	dx
-     176 00E3  41				inc	cx
-     177 00E4  81 F9 00C8			cmp	cx, 200
-     178 00E8  72 09				jc	Tarol2
-     179 00EA  49				dec	cx
-     180 00EB  EB 06 90				jmp	Tarol2
-     181				
-     182 00EE				Tarol:
-     183						
-     184 00EE  52				push dx
-     185 00EF  51				push cx
-     186 00F0  E9 0017 R			jmp	Rajz
-     187				
-     188 00F3				Tarol2:
-     189 00F3  52				push dx
-     190 00F4  51				push cx
-     191 00F5  E9 002A R			jmp Rajz2
+     163 00CE  42				inc dx
+     164 00CF  EB 2C 90				jmp	Tarol2
+     165					
+     166 00D2				Jobbra2:
+     167 00D2  59				pop	cx
+     168 00D3  5A				pop	dx
+     169 00D4  42				inc dx
+     170 00D5  81 FA 0140			cmp	dx, 320
+     171 00D9  72 22				jc	Tarol2
+     172 00DB  4A				dec	dx
+     173 00DC  EB 1F 90				jmp	Tarol2
+     174					
+     175 00DF				Felfele2:
+     176 00DF  59				pop	cx
+     177 00E0  5A				pop	dx
+     178 00E1  49				dec	cx
+     179 00E2  83 F9 01				cmp	cx, 1
+     180 00E5  73 16				jnc Tarol2
+     181 00E7  41				inc	cx
+     182 00E8  EB 13 90				jmp	Tarol2
+     183				
+     184 00EB				Lefele2:
+     185 00EB  59				pop	cx
+     186 00EC  5A				pop	dx
+     187 00ED  41				inc	cx
+     188 00EE  81 F9 00C8			cmp	cx, 200
+     189 00F2  72 09				jc	Tarol2
+     190 00F4  49				dec	cx
+     191 00F5  EB 06 90				jmp	Tarol2
      192				
-     193 00F8				Program_Vege:
-     194 00F8  B8 0003				mov	ax, 03h
-     195 00FB  CD 10				int	10h
-     196						
-     197 00FD  59				pop	cx
-     198 00FE  5A				pop	dx
-     199					
-     200 00FF  B8 4C00				mov	ax, 4c00h
-     201 0102  CD 21				int	21h
-     202						
+     193 00F8				Tarol:
+     194						
+     195 00F8  52				push dx
+     196 00F9  51				push cx
+     197 00FA  E9 001F R			jmp	Rajz
+     198				
+     199 00FD				Tarol2:
+     200 00FD  52				push dx
+     201 00FE  51				push cx
+     202 00FF  E9 0035 R			jmp Rajz2
      203				
-     204 0104				Code Ends
-     205 0000				Data Segment
-     206 0000				Data Ends
-     207 0000				Stack Segment
-     208 0000				Stack Ends
-     209					End	Start
-Microsoft (R) Macro Assembler Version 5.10                  11/5/23 10:46:40
+     204 0102				Program_Vege:
+     205 0102  B8 0003				mov	ax, 03h
+     206 0105  CD 10				int	10h
+     207						
+     208 0107  59				pop	cx
+     209 0108  5A				pop	dx
+     210					
+     211 0109  B8 4C00				mov	ax, 4c00h
+     212 010C  CD 21				int	21h
+     213						
+     214				
+     215 010E				Code Ends
+     216 0000				Data Segment
+Microsoft (R) Macro Assembler Version 5.10                  11/5/23 12:29:55
+                                                             Page     1-5
+
+
+     217 0000				Data Ends
+     218 0000				Stack Segment
+     219 0000				Stack Ends
+     220					End	Start
+Microsoft (R) Macro Assembler Version 5.10                  11/5/23 12:29:55
                                                              Symbols-1
 
 
@@ -231,7 +246,7 @@ Segments and Groups:
 
                 N a m e         	Length	 Align	Combine Class
 
-CODE . . . . . . . . . . . . . .  	0104	PARA	NONE	
+CODE . . . . . . . . . . . . . .  	010E	PARA	NONE	
 DATA . . . . . . . . . . . . . .  	0000	PARA	NONE	
 STACK  . . . . . . . . . . . . .  	0000	PARA	NONE	
 
@@ -239,46 +254,49 @@ Symbols:
 
                 N a m e         	Type	 Value	 Attr
 
-BALRA  . . . . . . . . . . . . .  	L NEAR	0087	CODE
-BALRA2 . . . . . . . . . . . . .  	L NEAR	00BC	CODE
+BALRA  . . . . . . . . . . . . .  	L NEAR	0091	CODE
+BALRA2 . . . . . . . . . . . . .  	L NEAR	00C6	CODE
 
-FELFELE  . . . . . . . . . . . .  	L NEAR	00A0	CODE
-FELFELE2 . . . . . . . . . . . .  	L NEAR	00D5	CODE
+ELSOCSIK . . . . . . . . . . . .  	L NEAR	0005	CODE
 
-JOBBRA . . . . . . . . . . . . .  	L NEAR	0093	CODE
-JOBBRA2  . . . . . . . . . . . .  	L NEAR	00C8	CODE
-JUMPHELPER . . . . . . . . . . .  	L NEAR	00B9	CODE
+FELFELE  . . . . . . . . . . . .  	L NEAR	00AA	CODE
+FELFELE2 . . . . . . . . . . . .  	L NEAR	00DF	CODE
 
-LEFELE . . . . . . . . . . . . .  	L NEAR	00AC	CODE
-LEFELE2  . . . . . . . . . . . .  	L NEAR	00E1	CODE
+JOBBRA . . . . . . . . . . . . .  	L NEAR	009D	CODE
+JOBBRA2  . . . . . . . . . . . .  	L NEAR	00D2	CODE
+JUMPHELPER . . . . . . . . . . .  	L NEAR	00C3	CODE
 
-PIXEL  . . . . . . . . . . . . .  	L NEAR	003D	CODE
-PIXEL2 . . . . . . . . . . . . .  	L NEAR	0046	CODE
-PROGRAM_VEGE . . . . . . . . . .  	L NEAR	00F8	CODE
+LEFELE . . . . . . . . . . . . .  	L NEAR	00B6	CODE
+LEFELE2  . . . . . . . . . . . .  	L NEAR	00EB	CODE
 
-RAJZ . . . . . . . . . . . . . .  	L NEAR	0017	CODE
-RAJZ2  . . . . . . . . . . . . .  	L NEAR	002A	CODE
+MASODIKCSIK  . . . . . . . . . .  	L NEAR	000D	CODE
+
+PIXEL  . . . . . . . . . . . . .  	L NEAR	004B	CODE
+PIXEL2 . . . . . . . . . . . . .  	L NEAR	0057	CODE
+PROGRAM_VEGE . . . . . . . . . .  	L NEAR	0102	CODE
+
+RAJZ . . . . . . . . . . . . . .  	L NEAR	001F	CODE
+RAJZ2  . . . . . . . . . . . . .  	L NEAR	0035	CODE
 
 START  . . . . . . . . . . . . .  	L NEAR	0000	CODE
 
-TAROL  . . . . . . . . . . . . .  	L NEAR	00EE	CODE
-TAROL2 . . . . . . . . . . . . .  	L NEAR	00F3	CODE
+TAROL  . . . . . . . . . . . . .  	L NEAR	00F8	CODE
+TAROL2 . . . . . . . . . . . . .  	L NEAR	00FD	CODE
 
-VAR  . . . . . . . . . . . . . .  	L NEAR	004F	CODE
-VAR2 . . . . . . . . . . . . . .  	L NEAR	006D	CODE
+VAR  . . . . . . . . . . . . . .  	L NEAR	0063	CODE
 
 @CPU . . . . . . . . . . . . . .  	TEXT  0101h		
 @FILENAME  . . . . . . . . . . .  	TEXT  horimr		
 @VERSION . . . . . . . . . . . .  	TEXT  510		
 
-Microsoft (R) Macro Assembler Version 5.10                  11/5/23 10:46:40
+Microsoft (R) Macro Assembler Version 5.10                  11/5/23 12:29:55
                                                              Symbols-2
 
 
 
-    209 Source  Lines
-    209 Total   Lines
-     27 Symbols
+    220 Source  Lines
+    220 Total   Lines
+     28 Symbols
 
   47376 + 459852 Bytes symbol space free
 
