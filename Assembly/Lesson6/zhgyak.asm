@@ -42,21 +42,8 @@ Start:
 ;**************************************************************************
 ;Ide �rja a megfelel� programr�szt!
 
-mov dx, 'x'
+	
 
-mov cx, 4
-
-Oldal1:
-	mov ah, 02h
-	mov bh, 0
-	mov dh, 10
-	mov dl, 10
-	int 10h
-
-	mov ah, 09
-	int 21h
-
-	loop Oldal1
 
 
 
@@ -94,6 +81,38 @@ bevitel1:
 ;**************************************************************************
 ;Ide �rja a megfelel� programr�szt!
 
+Beker:
+
+	xor ax, ax
+	int 16h
+
+	cmp al, 27
+	jz Feladat2_Vege
+
+	cmp al, '0'
+	jl NemSzam
+
+	cmp al, '9'
+	jg NemSzam
+
+
+	jmp Szam
+
+
+NemSzam:
+	mov dx, offset uzenetnemszam
+	mov ah, 09
+	int 21h
+
+	jmp Beker
+
+
+Szam:
+	mov dx, offset uzenetszam
+	mov ah, 09
+	int 21h
+
+	jmp Beker
 
 ;Eddig
 ;**************************************************************************
@@ -192,7 +211,7 @@ Program_Vege:
 	int	21h
 
 uzenetszam	db	"Szamjegy lett leutve!    $"
-uzenetnemszam	db	"Nem szamjegy vagy bet� lett leutve!$"
+uzenetnemszam	db	"Nem szamjegy vagy betu lett leutve!$"
 uzenet5		db	"!indula gorog a ludnI"
 muvelet1	db	"8/5"
 	

@@ -1,0 +1,181 @@
+Microsoft (R) Macro Assembler Version 5.10                  10/31/23 15:46:3
+                                                             Page     1-1
+
+
+       1				
+       2 0000				Code    Segment
+       3				    assume CS:Code, DS:Data, SS:Stack
+       4				
+       5 0000				Start:
+       6 0000  B8 ---- R			mov	ax, Code
+       7 0003  8E D8				mov DS, AX
+       8						
+       9 0005  BA 0064				mov dx, 100 ;x dl
+      10 0008  B9 0064				mov cx, 100	;y dh
+      11 000B  52				push dx
+      12 000C  51				push cx
+      13						
+      14 000D  B8 0013				mov ax, 13h
+      15 0010  CD 10				int	10h
+      16						
+      17 0012  B8 A000				mov	ax, 0a000h
+      18 0015  8E C0				mov es, ax
+      19				
+      20 0017				Rajz:
+      21 0017  59				pop	cx
+      22						
+      23 0018  33 C0				xor	ax, ax
+      24 001A  8B C1				mov	ax, cx
+      25						
+      26 001C  51				push cx
+      27 001D  BA 0140				mov	dx, 320
+      28 0020  F7 E2				mul	dx
+      29 0022  59				pop	cx
+      30 0023  5A				pop	dx
+      31 0024  03 C2				add	ax, dx
+      32 0026  73 01				jnc	Pixel
+      33 0028  40				inc ax
+      34 0029				Pixel:
+      35 0029  52				push dx
+      36 002A  51				push cx
+      37 002B  8B F8				mov	di,ax
+      38 002D  B0 FF				mov	al, 255
+      39 002F  8A C1			    mov al, cl
+      40 0031  FE C1			    inc cl
+      41 0033  26: 88 05			mov	es:[di], al
+      42 0036				Var:
+      43 0036  33 C0				xor	ax,ax
+      44 0038  CD 16				int	16h
+      45						
+      46 003A  3C 1B				cmp	al, 27
+      47 003C  74 16				jz	JumpHelper
+      48						
+      49 003E  80 FC 4B				cmp	ah, 75
+      50 0041  74 14				jz	Balra
+      51						
+      52 0043  80 FC 4D				cmp	ah, 77
+      53 0046  74 1B				jz	Jobbra
+      54						
+Microsoft (R) Macro Assembler Version 5.10                  10/31/23 15:46:3
+                                                             Page     1-2
+
+
+      55 0048  80 FC 48				cmp	ah, 72
+      56 004B  74 23				jz	Felfele
+      57						
+      58 004D  80 FC 50				cmp	ah, 80
+      59 0050  74 2A				jz	Lefele
+      60					
+      61 0052  EB E2				jmp	Var
+      62 0054				JumpHelper:
+      63 0054  EB 37 90				jmp Program_Vege
+      64 0057				Balra:
+      65 0057  59				pop	cx
+      66 0058  5A				pop	dx
+      67 0059  4A				dec	dx
+      68 005A  83 FA 01				cmp	dx, 1
+      69 005D  73 2A				jnc	Tarol
+      70 005F  42				inc	dx
+      71 0060  EB 27 90				jmp	Tarol
+      72						
+      73 0063				Jobbra:
+      74 0063  59				pop	cx
+      75 0064  5A				pop	dx
+      76 0065  42				inc	dx
+      77 0066  81 FA 0140			cmp	dx, 320
+      78 006A  72 1D				jc Tarol
+      79 006C  4A				dec	dx
+      80 006D  EB 1A 90				jmp	Tarol
+      81				 		
+      82 0070				Felfele:
+      83 0070  59				pop	cx
+      84 0071  5A				pop	dx
+      85 0072  49				dec cx
+      86 0073  83 F9 01				cmp	cx, 1
+      87 0076  73 11				jnc Tarol
+      88 0078  41				inc	cx
+      89 0079  EB 0E 90				jmp	Tarol
+      90				
+      91 007C				Lefele:
+      92 007C  59				pop	cx
+      93 007D  5A				pop	dx
+      94 007E  41			    inc	cx
+      95 007F  81 F9 00C8			cmp	cx, 200
+      96 0083  72 04				jc	Tarol
+      97 0085  49				dec	cx
+      98 0086  EB 01 90				jmp	Tarol
+      99						
+     100 0089				Tarol:
+     101 0089  52				push dx
+     102 008A  51				push cx
+     103 008B  EB 8A				jmp	Rajz
+     104						
+     105 008D				Program_Vege:
+     106 008D  B8 0003				mov	ax, 03h
+     107 0090  CD 10				int	10h
+     108					
+Microsoft (R) Macro Assembler Version 5.10                  10/31/23 15:46:3
+                                                             Page     1-3
+
+
+     109 0092  5A				pop	dx
+     110					
+     111 0093  B8 4C00				mov	ax, 4c00h
+     112 0096  CD 21				int	21h
+     113						
+     114				
+     115 0098				Code	Ends
+     116 0000				Data	Segment
+     117 0000				Data	Ends
+     118 0000				Stack	Segment
+     119 0000				Stack 	Ends
+     120					End		Start
+Microsoft (R) Macro Assembler Version 5.10                  10/31/23 15:46:3
+                                                             Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+CODE . . . . . . . . . . . . . .  	0098	PARA	NONE	
+DATA . . . . . . . . . . . . . .  	0000	PARA	NONE	
+STACK  . . . . . . . . . . . . .  	0000	PARA	NONE	
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+BALRA  . . . . . . . . . . . . .  	L NEAR	0057	CODE
+
+FELFELE  . . . . . . . . . . . .  	L NEAR	0070	CODE
+
+JOBBRA . . . . . . . . . . . . .  	L NEAR	0063	CODE
+JUMPHELPER . . . . . . . . . . .  	L NEAR	0054	CODE
+
+LEFELE . . . . . . . . . . . . .  	L NEAR	007C	CODE
+
+PIXEL  . . . . . . . . . . . . .  	L NEAR	0029	CODE
+PROGRAM_VEGE . . . . . . . . . .  	L NEAR	008D	CODE
+
+RAJZ . . . . . . . . . . . . . .  	L NEAR	0017	CODE
+
+START  . . . . . . . . . . . . .  	L NEAR	0000	CODE
+
+TAROL  . . . . . . . . . . . . .  	L NEAR	0089	CODE
+
+VAR  . . . . . . . . . . . . . .  	L NEAR	0036	CODE
+
+@CPU . . . . . . . . . . . . . .  	TEXT  0101h		
+@FILENAME  . . . . . . . . . . .  	TEXT  horimr		
+@VERSION . . . . . . . . . . . .  	TEXT  510		
+
+
+    120 Source  Lines
+    120 Total   Lines
+     19 Symbols
+
+  47376 + 461899 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors

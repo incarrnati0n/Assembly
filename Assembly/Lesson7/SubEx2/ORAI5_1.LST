@@ -1,0 +1,176 @@
+Microsoft (R) Macro Assembler Version 5.10                  10/31/23 15:22:3
+                                                             Page     1-1
+
+
+       1				
+       2 0000				Code    Segment
+       3				        assume CS:Code, DS:Data, SS:Sta
+					ck
+       4				
+       5 0000				Start:
+       6 0000  B8 ---- R				mov		ax, Cod
+					e
+       7 0003  8E D8					mov 	DS, AX
+       8						
+       9 0005  B2 64					mov 	dl, 100
+      10 0007  B6 64					mov 	dh, 100
+      11 0009  52					push 	dx
+      12						
+      13 000A  B8 0013					mov 	ax, 13h
+      14 000D  CD 10					int		10h
+      15						
+      16 000F  B8 A000					mov		ax, 0a0
+					00h
+      17 0012  8E C0					mov 	es, ax
+      18				
+      19 0014				Rajz:
+      20 0014  5A					pop		dx
+      21 0015  32 E4					xor		ah, ah
+      22 0017  8A C6					mov		al, dh
+      23 0019  52					push	dx
+      24 001A  BB 0140					mov		bx, 320
+      25 001D  F7 E3					mul		bx
+      26 001F  5A					pop		dx
+      27 0020  02 C2					add		al, dl
+      28 0022  73 02					jnc		Pixel
+      29 0024  FE C4					inc 	ah
+      30 0026				Pixel:
+      31 0026  52					push	dx
+      32 0027  8B F8					mov		di,ax
+      33 0029  B0 80					mov		al, 128
+      34 002B  8A C1					mov		al, cl
+      35 002D  FE C1					inc		cl
+      36 002F  26: 88 05				mov		es:[di]
+					, al
+      37 0032				Var:
+      38 0032  32 E4					xor		ah,ah
+      39 0034  CD 16					int		16h
+      40						
+      41 0036  3C 1B					cmp		al, 27
+      42 0038  74 4D					jz		Program
+					_Vege
+      43						
+      44 003A  80 FC 4B					cmp		ah, 75
+      45 003D  74 11					jz		Balra
+      46						
+      47 003F  80 FC 4D					cmp		ah, 77
+      48 0042  74 19					jz		Jobbra
+      49						
+Microsoft (R) Macro Assembler Version 5.10                  10/31/23 15:22:3
+                                                             Page     1-2
+
+
+      50 0044  80 FC 48					cmp		ah, 72
+      51 0047  74 21					jz		Felfele
+      52						
+      53 0049  80 FC 50					cmp		ah, 80
+      54 004C  74 29					jz		Lefele
+      55						
+      56 004E  EB E2					jmp		Var
+      57				
+      58						
+      59 0050				Balra:
+      60 0050  5A					pop		dx
+      61 0051  FE CA					dec		dl
+      62 0053  80 FA 01					cmp		dl, 1
+      63 0056  73 2C					jnc 	Tarol
+      64 0058  FE C2					inc 	dl
+      65 005A  EB 28 90					jmp		Tarol
+      66						
+      67 005D				Jobbra:
+      68 005D  5A					pop		dx
+      69 005E  FE C2					inc 	dl
+      70 0060  80 FA FA					cmp		dl, 250
+      71 0063  72 1F					jc		Tarol
+      72 0065  FE CA					dec		dl
+      73 0067  EB 1B 90					jmp		Tarol
+      74						
+      75 006A				Felfele:
+      76 006A  5A					pop		dx
+      77 006B  FE CE					dec		dh
+      78 006D  80 FE 01					cmp		dh, 1
+      79 0070  73 12					jnc 	Tarol
+      80 0072  FE C6					inc		dh
+      81 0074  EB 0E 90					jmp		Tarol
+      82				
+      83 0077				Lefele:
+      84 0077  5A					pop		dx
+      85 0078  FE C6					inc		dh
+      86 007A  80 FE C8					cmp		dh, 200
+      87 007D  72 05					jc		Tarol
+      88 007F  FE CE					dec		dh
+      89 0081  EB 01 90					jmp		Tarol
+      90						
+      91 0084				Tarol:
+      92 0084  52					push	dx
+      93 0085  EB 8D					jmp		Rajz
+      94						
+      95 0087				Program_Vege:
+      96 0087  B8 0003					mov		ax, 03h
+      97 008A  CD 10					int		10h
+      98						
+      99 008C  5A					pop		dx
+     100						
+     101 008D  B8 4C00					mov		ax, 4c0
+					0h
+     102 0090  CD 21					int		21h
+Microsoft (R) Macro Assembler Version 5.10                  10/31/23 15:22:3
+                                                             Page     1-3
+
+
+     103						
+     104				
+     105 0092				Code	Ends
+     106 0000				Data	Segment
+     107 0000				Data	Ends
+     108 0000				Stack	Segment
+     109 0000				Stack 	Ends
+     110						End		Start
+Microsoft (R) Macro Assembler Version 5.10                  10/31/23 15:22:3
+                                                             Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+CODE . . . . . . . . . . . . . .  	0092	PARA	NONE	
+DATA . . . . . . . . . . . . . .  	0000	PARA	NONE	
+STACK  . . . . . . . . . . . . .  	0000	PARA	NONE	
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+BALRA  . . . . . . . . . . . . .  	L NEAR	0050	CODE
+
+FELFELE  . . . . . . . . . . . .  	L NEAR	006A	CODE
+
+JOBBRA . . . . . . . . . . . . .  	L NEAR	005D	CODE
+
+LEFELE . . . . . . . . . . . . .  	L NEAR	0077	CODE
+
+PIXEL  . . . . . . . . . . . . .  	L NEAR	0026	CODE
+PROGRAM_VEGE . . . . . . . . . .  	L NEAR	0087	CODE
+
+RAJZ . . . . . . . . . . . . . .  	L NEAR	0014	CODE
+
+START  . . . . . . . . . . . . .  	L NEAR	0000	CODE
+
+TAROL  . . . . . . . . . . . . .  	L NEAR	0084	CODE
+
+VAR  . . . . . . . . . . . . . .  	L NEAR	0032	CODE
+
+@CPU . . . . . . . . . . . . . .  	TEXT  0101h		
+@FILENAME  . . . . . . . . . . .  	TEXT  orai5_1		
+@VERSION . . . . . . . . . . . .  	TEXT  510		
+
+
+    110 Source  Lines
+    110 Total   Lines
+     18 Symbols
+
+  47376 + 461899 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors

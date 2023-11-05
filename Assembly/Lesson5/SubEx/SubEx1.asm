@@ -8,18 +8,29 @@ Start:
 Keres:
     mov dl, [di]
     cmp dl, "/"
-    jz ParamKezdet
+    jz ElsoSzam
     inc di
     loop Keres
     jmp Default
 
-ParamKezdet:
+ElsoSzam:
     inc di
-    mov bl, [di]
+    mov dl, [di]
+    cmp dl, '0'
+    jz Atugor
 
-    cmp bl, 63
+    cmp dl, 63
     jz Kiiras
 
+    jmp ParamKezdet
+
+Atugor:
+    inc di
+    jmp ParamKezdet
+
+ParamKezdet:
+
+    mov bl, [di]
     sub bl, 48
     inc di
 
@@ -133,7 +144,6 @@ labda db "O$"
 segitoszoveg db "A program alapvetoen 10-el dob$"
 
 segitoszoveg2 db "A program meghivasa utan adj meg egy parametert a / jel utan$"
-
 
 Code Ends
 

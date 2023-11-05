@@ -41,22 +41,92 @@ Start:
 	int	21h
 ;**************************************************************************
 ;Ide �rja a megfelel� programr�szt!
-
-mov dx, 'x'
-
-mov cx, 4
-
-Oldal1:
+	
 	mov ah, 02h
-	mov bh, 0
+	xor bx, bx
 	mov dh, 10
 	mov dl, 10
-	int 10h
+	push dx
 
-	mov ah, 09
-	int 21h
+	mov cx, 5
+
+Oldal1:
+	mov dl, 'x'
+	mov ah, 02
+	int 21h	
+
+	pop dx
+	inc dh
+	inc dl
+	int 10h
+	push dx
 
 	loop Oldal1
+
+
+pop dx
+dec dh
+dec dl
+push dx
+int 10h
+
+mov cx, 5
+
+Oldal2:
+	mov dl, 'x'
+	mov ah, 02
+	int 21h
+
+	pop dx
+	inc dh
+	dec dl
+	int 10h
+	push dx
+
+	loop Oldal2
+
+pop dx
+dec dh
+inc dl
+push dx
+int 10h
+
+mov cx, 5
+
+Oldal3:
+	mov dl, 'x'
+	mov ah, 02
+	int 21h
+
+	pop dx
+	dec dh
+	dec dl
+	int 10h
+	push dx
+
+	loop Oldal3
+
+pop dx
+inc dh
+inc dl
+push dx
+int 10h
+
+mov cx, 5
+
+Oldal4:
+	mov dl, 'x'
+	mov ah, 02
+	int 21h
+
+	pop dx
+	dec dh
+	inc dl
+	int 10h
+	push dx
+
+	loop Oldal4
+
 
 
 
@@ -64,6 +134,8 @@ Oldal1:
 ;**************************************************************************
 	xor	ax,ax
 	int	16h
+	mov ax,3
+	int 10h
 ;==========================================================================
 ;2. feledat: 
 ;D�ntse el a megnyomott bilenty�r�l, hogy sz�mot, vagy bet� karaktert
@@ -94,9 +166,49 @@ bevitel1:
 ;**************************************************************************
 ;Ide �rja a megfelel� programr�szt!
 
+Beker:
+
+	xor ax, ax
+	int 16h
+
+	cmp al, 27
+	jz Feladat2_Vege
+
+	cmp al, '0'
+	jl NemSzam
+
+	cmp al, '9'
+	jg NemSzam
+
+
+	jmp Szam
+
+
+NemSzam:
+	mov dx, offset uzenetnemszam
+	mov ah, 09
+	int 21h
+
+	jmp Beker
+
+
+Szam:
+	mov dx, offset uzenetszam
+	mov ah, 09
+	int 21h
+
+	jmp Beker
+
+
+
 
 ;Eddig
 ;**************************************************************************
+xor	ax,ax
+	int	16h
+	mov ax,3
+	int 10h
+
 Feladat2_Vege:
 ;==========================================================================
 ;3. feledat: 
@@ -124,15 +236,116 @@ Feladat2_Vege:
 ;**************************************************************************
 ;Ide �rja a megfelel� programr�szt!
 
+	mov bx, si
+	mov cx, 16
+
+SiBinaris:
+	rcl bx, 1
+	jc Egyes
+
+	mov dl, '0'
+	mov ah, 02
+	int 21h
+
+	loop SiBinaris
+
+	jmp KoviBinaris
+
+Egyes:
+	mov dl, '1'
+	mov ah, 02
+	int 21h
+
+	dec cx
+	cmp cx, 0
+	jz KoviBinaris
+
+	jmp SiBinaris
+
+KoviBinaris:
+	mov dl, ' '
+	mov ah, 02
+	int 21h
+
+	mov dl, ':'
+	mov ah, 02
+	int 21h
+
+	mov dl, ' '
+	mov ah, 02
+	int 21h
+
+	mov bx, di
+	mov cx, 16
+
+DiBinaris:
+	rcl bx, 1
+	jc Egyes2
+
+	mov dl, '0'
+	mov ah, 02
+	int 21h
+
+	loop DiBinaris
+
+	jmp Feladat3_vege
+
+Egyes2:
+	mov dl, '1'
+	mov ah, 02
+	int 21h
+
+	dec cx
+	cmp cx, 0
+	jz Feladat3_vege
+
+	jmp DiBinaris
+
+Feladat3_vege:
+	xor ax, ax
+	int 16h
 
 ;Eddig
 ;**************************************************************************
 	xor	ax,ax
 	int	16h
-
 	mov ax,3
 	int 10h
+;==========================================================================
+;4. feledat: 
+;Automatikus kit�lt�s: Karakteres �zemm�dban haszn�lja a megl�v� "kilepes" sztringet:
+;t�ltse fel "*" karakterrel, minden megjelen�t�s k�z�tt v�rjon 5 "tick"-et!
+;Minta:
+; "|       |$"
+; "|       |$"
+; "|**     |$"
+; "|***    |$"
+; "|****   |$"
+; "|*****  |$"
+; "|****** |$"
+; "|*******|$" 
 
+;==========================================================================
+mov	dx, offset feladat4
+	mov	ah,9
+	int	21h
+
+	mov	ah, 02h
+	mov	bh, 0
+	mov	dl,2		;DL:X koordinata
+	mov	dh,2		;DH:Y koordinata
+	int	10h
+
+;**************************************************************************
+;Ide �rja a megfelel� programr�szt!
+
+
+;Eddig
+;**************************************************************************
+	xor	ax,ax
+	int	16h
+	mov ax,3
+	int 10h
 ;==========================================================================
 ;5. feledat: 
 ;Karakteres �zemm�dban �rja ki a "Indul a g�r�g aludni!" uzenetet!
@@ -151,11 +364,41 @@ Feladat2_Vege:
 ;**************************************************************************
 ;Ide �rja a megfelel� programr�szt!
 
+	mov di, offset uzenet5
+
+Vegere:
+	mov al, [di]
+	cmp al, 'I'
+
+	jz Fordit
+
+	inc di
+
+	jmp Vegere
+
+Fordit:
+	mov dl, [di]
+	cmp dl, '!'
+	jz Feladat5_vege
+
+
+	mov ah, 02
+	int 21h
+
+	dec di
+
+	jmp Fordit
+
+Feladat5_vege:
+	xor ax, ax
+	int 16h
 
 ;Eddig
 ;**************************************************************************
 	xor	ax,ax
 	int	16h
+	mov ax,3
+	int 10h
 ;==========================================================================
 ;6. feledat: 
 ;Sz�m�tsa ki a "muvelet1" sztringben megadott oszt�st.
@@ -181,6 +424,35 @@ Feladat2_Vege:
 ;**************************************************************************
 ;Ide �rja a megfelel� programr�szt!
 
+	xor ax, ax
+	mov di, offset muvelet1
+	mov al, [di]
+
+	inc di
+	inc di
+
+	mov bl, [di]
+
+	sub bl, '0'
+	sub al, '0'
+
+	div bl
+
+	mov cl, ah
+
+	mov dl, al
+	add dl, '0'
+	mov ah, 02
+	int 21h
+
+	mov dl, ','
+	mov ah, 02
+	int 21h
+
+	mov dl, cl
+	add dl, '0'
+	mov ah, 02
+	int 21h
 
 ;Eddig
 ;**************************************************************************
@@ -192,13 +464,15 @@ Program_Vege:
 	int	21h
 
 uzenetszam	db	"Szamjegy lett leutve!    $"
-uzenetnemszam	db	"Nem szamjegy vagy bet� lett leutve!$"
-uzenet5		db	"!indula gorog a ludnI"
-muvelet1	db	"8/5"
+uzenetnemszam	db	"Nem szamjegy vagy betu lett leutve!$"
+string4		db	"|          |$"
+uzenet5		db	"!indula gorog a ludnIs"
+muvelet1	db	"8/5$"
 	
 feladat1	db	"Elso feladat: rombusz.$" 
 feladat2	db	"Masodik feladat: szamjegy bevitele.(ESC=kilepes)$" 
 feladat3	db	"Harmadik feladat: SI erteke decimalisan.$" 
+feladat4	db	"Negyedik feladat: Automatikus kitoltes.$" 
 feladat5	db	"Otodik feladat: uzenet kiiras.$" 
 feladat6	db	"Hatodik feladat: szamolas.$" 
 
