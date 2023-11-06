@@ -1,0 +1,182 @@
+Microsoft (R) Macro Assembler Version 5.10                  11/6/23 21:47:58
+                                                             Page     1-1
+
+
+       1 0000				Code Segment
+       2				    assume CS:Code, DS:Data, SS:Stack
+       3				
+       4 = 2710				Szorzo=10000
+       5				
+       6 0000				Start:
+       7 0000  B8 ---- R		    mov ax, Code
+       8 0003  8E D8			    mov ds, ax
+       9				
+      10 0005  BF 006E R		    mov di, offset Eredmeny
+      11 0008  B8 2710			    mov ax, Szorzo
+      12 000B  89 05			    mov [di], ax ;sorozat elso eleme
+      13				
+      14 000D  B9 09C4			    mov cx, 2500 ;ciklus 2500x fusson
+      15 0010  BE 0003			    mov si, 3 ;sorozat masodik elemenek
+					 nevezoje
+      16				
+      17 0013				Szamol:
+      18 0013  B8 2710			    mov ax, Szorzo
+      19 0016  33 D2			    xor dx, dx ;16 bites szam osztasa n
+					e feletkezzunk meg a dx torleserol mert
+					 ide kerul a maradek
+      20 0018  F7 F6			    div si
+      21 001A  29 05			    sub [di], ax
+      22 001C  83 C6 02			    add si, 2
+      23				
+      24				;DIV (16 bites operandus)
+      25				;DX:AX 32 bites osztandót elosztja az 
+					operandussal
+      26				;Eredmény: DX:maradék – AX:hányado
+					s
+      27				;INT0 (hiba) – ha a hányados nagyobb
+					, mint 16 bit
+      28				
+      29				;DIV (8 bites operandus)
+      30				;AX 16 bites osztandót elosztja az ope
+					randussal
+      31				;Eredmény: AH:maradék – AL:hányado
+					s
+      32				;INT0 (hiba) – ha a hányados nagyobb
+					, mint 8 bit
+      33				
+      34				
+      35 001F  B8 2710			    mov ax, Szorzo
+      36 0022  33 D2			    xor dx, dx 
+      37 0024  F7 F6			    div si
+      38 0026  29 05			    sub [di], ax
+      39 0028  83 C6 02			    add si, 2
+      40				    
+      41 002B  E2 E6			    loop Szamol
+      42				
+      43 002D  8B 05			    mov ax, [di]
+      44 002F  B1 02			    mov cl, 2
+      45 0031  D3 E0			    shl ax, cl
+Microsoft (R) Macro Assembler Version 5.10                  11/6/23 21:47:58
+                                                             Page     1-2
+
+
+      46				
+      47 0033  33 D2			    xor dx, dx
+      48 0035  BB 2710			    mov bx, 10000
+      49 0038  F7 F3			    div bx ;tizezresek szam eredmeny AX
+					-ben (AL-ben), maradek DX-ben
+      50				
+      51 003A  52			    push dx
+      52 003B  E8 0075 R		    call Kiir ;Kiir szubrutin elhelyeze
+					se celszeru a program_vege utani Code s
+					zegmens reszben
+      53				
+      54 003E  B0 2E			    mov al, '.'
+      55 0040  2C 30			    sub al, 48 ;csalunk, hogy a Kiir sz
+					ubrutint tudjuk használni. Természete
+					sen gyorsabb szubrutin hívás nélkül
+					!
+      56				
+      57 0042  E8 0075 R		    call Kiir
+      58				
+      59 0045  58			    pop ax
+      60 0046  33 D2			    xor dx, dx
+      61 0048  BB 03E8			    mov bx, 1000
+      62 004B  F7 F3			    div bx ;1000-esek kiirasa
+      63				
+      64 004D  52			    push dx
+      65				
+      66 004E  E8 0075 R		    call Kiir
+      67				
+      68 0051  58			    pop ax
+      69 0052  33 D2			    xor dx, dx
+      70 0054  BB 0064			    mov bx, 100
+      71 0057  F7 F3			    div bx ;100-asok kiirasa
+      72				
+      73 0059  52			    push dx
+      74				
+      75 005A  E8 0075 R		    call Kiir
+      76				
+      77 005D  58			    pop ax
+      78 005E  33 D2			    xor dx, dx
+      79 0060  BB 000A			    mov bx, 10
+      80 0063  F7 F3			    div bx ;10-esek kiirasa
+      81				
+      82 0065  52			    push dx
+      83				
+      84 0066  E8 0075 R		    call Kiir
+      85				
+      86 0069  58			    pop ax
+      87				
+      88 006A  E8 0075 R		    call Kiir
+      89				
+      90				
+      91				;Eredmeny:     db "xx"
+      92				
+      93				
+Microsoft (R) Macro Assembler Version 5.10                  11/6/23 21:47:58
+                                                             Page     1-3
+
+
+      94 = 006E				Eredmeny=$+1
+      95				
+      96 006D  EB 01 90			jmp Program_Vege
+      97				
+      98				
+      99 0070				Program_Vege:
+     100 0070  B8 4C00			    mov ax, 4c00h
+     101 0073  CD 21			    int 21h
+     102				
+     103 0075				Kiir:
+     104 0075  8A D0			    mov dl, al
+     105 0077  80 C2 30			    add dl, 48
+     106 007A  B4 02			    mov ah, 02h
+     107 007C  CD 21			    int 21h
+     108 007E  C3			    ret
+     109				
+     110				
+     111 007F				Code Ends
+     112 0000				Data Segment
+     113 0000				Data Ends
+     114 0000				Stack Segment
+     115 0000				Stack Ends
+     116				End Start
+Microsoft (R) Macro Assembler Version 5.10                  11/6/23 21:47:58
+                                                             Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+CODE . . . . . . . . . . . . . .  	007F	PARA	NONE	
+DATA . . . . . . . . . . . . . .  	0000	PARA	NONE	
+STACK  . . . . . . . . . . . . .  	0000	PARA	NONE	
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+EREDMENY . . . . . . . . . . . .  	NEAR	006E	CODE
+
+KIIR . . . . . . . . . . . . . .  	L NEAR	0075	CODE
+
+PROGRAM_VEGE . . . . . . . . . .  	L NEAR	0070	CODE
+
+START  . . . . . . . . . . . . .  	L NEAR	0000	CODE
+SZAMOL . . . . . . . . . . . . .  	L NEAR	0013	CODE
+SZORZO . . . . . . . . . . . . .  	NUMBER	2710	
+
+@CPU . . . . . . . . . . . . . .  	TEXT  0101h		
+@FILENAME  . . . . . . . . . . .  	TEXT  main		
+@VERSION . . . . . . . . . . . .  	TEXT  510		
+
+
+    116 Source  Lines
+    116 Total   Lines
+     14 Symbols
+
+  47432 + 461843 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors
