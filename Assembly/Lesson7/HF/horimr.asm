@@ -6,17 +6,17 @@ Start:
 	mov	ax, Code
 	mov DS, AX		
 
-	mov cx, 100
-	mov dx, 100
+	mov cx, 100 ;X1 
+	mov dx, 100 ;Y1
 
-	push dx
-	push cx
+	push dx ;Y1 be
+	push cx ;X1 be
 
-	mov cx, 200
-	mov dx, 200
+	mov cx, 200 ;X2
+	mov dx, 200 ;Y2
 
-	push dx
-	push cx
+	push dx ;Y2 be
+	push cx ;X2 be
 
 	mov ax, 13h
 	int	10h
@@ -24,56 +24,51 @@ Start:
 	mov	ax, 0a000h
 	mov es, ax
 
-Rajz:
-	pop cx
-
-	xor	ax, ax
-	mov	ax, cx
+Rajz: ;X1, Y1
+	
+	pop cx ;X2 ki
+	pop dx ;Y2 ki
+	pop bx ;X1 ki
+	pop ax ;Y1 ki
 		
+	push ax
+	push bx
+	push dx
 	push cx
 		
-	mov	bx, 320
-	mul	bx
+	mov dx, 320
+	mul	dx
 		
-	pop cx
-	pop	dx
-	add	ax, dx
-	jnc	Pixel
-	inc ah
+	add	ax, bx
+	mov di, ax
+	;jnc	Pixel
+	;inc ah
 
 	jmp Pixel
 
 Rajz2:
-	pop cx
+	pop bx
+	pop ax
 
-	xor	ax, ax
-	mov	ax, cx
+	push ax
+	push bx
 		
-	push cx
+	mov	dx, 320
+	mul	dx
 		
-	mov	bx, 320
-	mul	bx
-		
-	pop cx
-	pop	dx
-	add	ax, dx
-	jnc	Pixel2
-	inc ah
+	add	ax, bx
+	mov di, ax
+	;jnc	Pixel2
+	;inc ah
 
 	jmp Pixel2
 
 Pixel:
-	push dx
-	push cx
-	mov	di,ax
 	mov	al, 1
 	mov	es:[di], al
 
 	jmp Var
 Pixel2:
-	push dx
-	push cx
-	mov di, ax
 	mov al, 4
 	mov es:[di], al
 
@@ -112,89 +107,139 @@ Var:
 	jmp	Var
 
 Balra:
-	pop cx
-	pop	dx
-	dec	dx
-	cmp	dx, 1
+	pop cx ;X2 ki
+	pop dx ;Y2 ki
+	pop bx ;X1 ki
+	pop ax ;Y1 ki
+		
+	;push ax
+	;push bx
+	;push dx
+	;push cx
+
+	dec	bx
+	cmp	bx, 1
 	jnc Tarol
-	inc dx
+	inc bx
 	jmp	Tarol
 	
 Jobbra:
-	pop	cx
-	pop	dx
-	inc dx
-	cmp	dx, 320
+	pop cx ;X2 ki
+	pop dx ;Y2 ki
+	pop bx ;X1 ki
+	pop ax ;Y1 ki
+		
+	;push ax
+	;push bx
+	;push dx
+	;push cx
+
+	inc bx
+	cmp	bx, 320
 	jc	Tarol
-	dec	dx
+	dec	bx
 	jmp	Tarol
 	
 Felfele:
-	pop	cx
-	pop	dx
-	dec	cx
-	cmp	cx, 1
+	pop cx ;X2 ki
+	pop dx ;Y2 ki
+	pop bx ;X1 ki
+	pop ax ;Y1 ki
+		
+	;push ax
+	;push bx
+	;push dx
+	;push cx
+
+	dec	ax
+	cmp	ax, 1
 	jnc Tarol
-	inc	cx
+	inc	ax
 	jmp	Tarol
 
 Lefele:
-	pop	cx
-	pop	dx
-	inc	cx
-	cmp	cx, 200
+
+	pop cx ;X2 ki
+	pop dx ;Y2 ki
+	pop bx ;X1 ki
+	pop ax ;Y1 ki
+		
+	;push ax
+	;push bx
+	;push dx
+	;push cx
+
+	inc	ax
+	cmp	ax, 200
 	jc	Tarol
-	dec	cx
+	dec	ax
 	jmp	Tarol
 
 JumpHelper:
 	jmp Program_Vege
 
 Balra2:
-	pop cx
-	pop	dx
-	dec	dx
-	cmp	dx, 1
+	pop bx
+	pop ax
+
+	;push ax
+	;push bx
+
+ 	dec	bx
+	cmp	bx, 1
 	jnc Tarol2
-	inc dx
+	inc bx
 	jmp	Tarol2
 	
 Jobbra2:
-	pop	cx
-	pop	dx
-	inc dx
-	cmp	dx, 320
+	pop bx
+	pop ax
+
+	;push ax
+	;push bx
+
+	inc bx
+	cmp	bx, 320
 	jc	Tarol2
-	dec	dx
+	dec	bx
 	jmp	Tarol2
 	
 Felfele2:
-	pop	cx
-	pop	dx
-	dec	cx
-	cmp	cx, 1
+	pop bx
+	pop ax
+
+	;push ax
+	;push bx
+
+	dec	ax
+	cmp	ax, 1
 	jnc Tarol2
-	inc	cx
+	inc	ax
 	jmp	Tarol2
 
 Lefele2:
-	pop	cx
-	pop	dx
-	inc	cx
-	cmp	cx, 200
+	pop bx
+	pop ax
+
+	;push ax
+	;push bx
+
+	inc	ax
+	cmp	ax, 200
 	jc	Tarol2
-	dec	cx
+	dec	ax
 	jmp	Tarol2
 
 Tarol:
-		
+	push ax
+	push bx
 	push dx
 	push cx
 	jmp	Rajz
 
 Tarol2:
-	push dx
-	push cx
+	push ax
+	push bx
 	jmp Rajz2
 
 Program_Vege:

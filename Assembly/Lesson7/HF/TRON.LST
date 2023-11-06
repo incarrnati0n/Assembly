@@ -1,0 +1,257 @@
+Microsoft (R) Macro Assembler Version 5.10                  11/6/23 16:03:15
+                                                             Page     1-1
+
+
+       1 0000				Code	Segment
+       2					assume CS:Code, DS:Data, SS:Sta
+					ck
+       3				
+       4 0000				Start:
+       5 0000  B8 ---- R			mov	ax, Code
+       6 0003  8E D8				mov	DS, AX
+       7					;kezdő pont:
+       8 0005  BB 01E0				mov bx, 480 ;oszlop_nyilak
+       9 0008  BA 00F0				mov dx, 240 ;sor_nyilak
+      10 000B  53				push bx ;osz1
+      11 000C  52				push dx ;sor1
+      12					
+      13 000D  BB 00A0				mov bx, 160 ;oszlop_wasd 
+      14 0010  BA 00F0				mov dx, 240 ;sor_wasd
+      15 0013  53				push bx ;osz2
+      16 0014  52				push dx ;sor2
+      17					
+      18 0015  B4 00				mov ah, 00h
+      19 0017  B0 12				mov al, 12h ;grafikus mode 640*
+					480
+      20 0019  CD 10				int 10h
+      21					
+      22 001B				Rajz1:
+      23 001B  B4 0C				mov ah, 0ch ;pixel rajz
+      24					
+      25 001D  58				pop ax;sor2 ki
+      26 001E  5B				pop bx;oszlop2 ki
+      27					
+      28 001F  5A				pop dx ;sor1 ki
+      29 0020  59				pop cx ;oszlop1 ki
+      30 0021  51				push cx ;oszlop1 vissza
+      31 0022  52				push dx ;sor1 vissza
+      32 0023  53				push bx ;oszlop2 vissza
+      33 0024  50				push ax ;sor2 vissz
+      34					
+      35 0025  B4 0C				mov ah, 0ch
+      36 0027  B0 03				mov al, 03h 
+      37 0029  B7 00				mov bh, 0 ;page 0
+      38 002B  CD 10				int 10h
+      39					
+      40 002D				Rajz2:
+      41 002D  5A				pop dx ;sor2 ki
+      42 002E  59				pop cx ;oszlop2 ki
+      43 002F  51				push cx ;oszlop2 vissza
+      44 0030  52				push dx ;sor2 vissza
+      45					
+      46 0031  B4 0C				mov ah, 0ch ;pixel rajz
+      47 0033  B0 0D				mov al, 0dh
+      48 0035  B7 00				mov bh, 0 ;page 0
+      49 0037  CD 10				int 10h
+      50				
+      51 0039				Var:
+      52 0039  32 E4				xor ah, ah
+Microsoft (R) Macro Assembler Version 5.10                  11/6/23 16:03:15
+                                                             Page     1-2
+
+
+      53 003B  CD 16				int 16h
+      54					
+      55 003D  3C 1B				cmp al, 27
+      56 003F  74 60				jz PV
+      57					
+      58 0041  3C 77				cmp al, 119
+      59 0043  74 78				jz Felfele2
+      60 0045  3C 61				cmp al, 97
+      61 0047  74 5B				jz Balra2
+      62 0049  3C 73				cmp al, 115
+      63 004B  74 7C				jz Lefele2
+      64 004D  3C 64				cmp al, 100
+      65 004F  74 5F				jz Jobbra2
+      66					
+      67 0051  80 FC 4B				cmp ah, 75
+      68 0054  74 11				jz Balra1
+      69 0056  80 FC 4D				cmp ah, 77
+      70 0059  74 1A				jz Jobbra1
+      71 005B  80 FC 48				cmp ah, 72
+      72 005E  74 24				jz Felfele1
+      73 0060  80 FC 50				cmp ah, 80
+      74 0063  74 2D				jz Lefele1
+      75					
+      76 0065  EB D2				jmp Var
+      77				
+      78 0067				Balra1:
+      79 0067  58				pop ax ;sor2
+      80 0068  59				pop cx ;oszlop2
+      81 0069  5A				pop dx ;sor1
+      82 006A  5B				pop bx ;oszlop1
+      83 006B  4B				dec bx
+      84 006C  83 FB 01				cmp bx, 1
+      85 006F  73 65				jnc Tarol
+      86 0071  43				inc bx
+      87 0072  EB 62 90				jmp Tarol
+      88 0075				Jobbra1:
+      89 0075  58				pop ax ;sor2
+      90 0076  59				pop cx ;oszlop2
+      91 0077  5A				pop dx ;sor1
+      92 0078  5B				pop bx ;oszlop1
+      93 0079  43				inc bx
+      94 007A  81 FB 0280			cmp bx, 640
+      95 007E  72 56				jc Tarol
+      96 0080  4B				dec bx
+      97 0081  EB 53 90				jmp Tarol
+      98 0084				Felfele1:
+      99 0084  58				pop ax ;sor2
+     100 0085  59				pop cx ;oszlop2
+     101 0086  5A				pop dx ;sor1
+     102 0087  5B				pop bx ;oszlop1
+     103 0088  4A				dec dx
+     104 0089  83 FA 01				cmp dx, 1
+     105 008C  73 48				jnc Tarol
+     106 008E  42				inc dx
+Microsoft (R) Macro Assembler Version 5.10                  11/6/23 16:03:15
+                                                             Page     1-3
+
+
+     107 008F  EB 45 90				jmp Tarol
+     108 0092				Lefele1:
+     109 0092  58				pop ax ;sor2
+     110 0093  59				pop cx ;oszlop2
+     111 0094  5A				pop dx ;sor1
+     112 0095  5B				pop bx ;oszlop1
+     113 0096  42				inc dx
+     114 0097  81 FA 01E0			cmp dx, 480
+     115 009B  72 39				jc Tarol
+     116 009D  4A				dec dx
+     117 009E  EB 36 90				jmp Tarol
+     118					;;;;;;;;;;;;
+     119 00A1				PV:
+     120 00A1  EB 3F 90				jmp Program_Vege
+     121					;;;;;;;;;;;;
+     122 00A4				Balra2:
+     123 00A4  5A				pop dx ;sor
+     124 00A5  5B				pop bx ;oszlop
+     125 00A6  4B				dec bx
+     126 00A7  83 FB 01				cmp bx, 1
+     127 00AA  73 31				jnc Tarol2
+     128 00AC  43				inc bx
+     129 00AD  EB 2E 90				jmp Tarol2
+     130 00B0				Jobbra2:
+     131 00B0  5A				pop dx
+     132 00B1  5B				pop bx
+     133 00B2  43				inc bx
+     134 00B3  81 FB 0280			cmp bx, 640
+     135 00B7  72 24				jc Tarol2
+     136 00B9  4B				dec bx
+     137 00BA  EB 21 90				jmp Tarol2
+     138 00BD				Felfele2:
+     139 00BD  5A				pop dx
+     140 00BE  5B				pop bx
+     141 00BF  4A				dec dx
+     142 00C0  83 FA 01				cmp dx, 1
+     143 00C3  73 18				jnc Tarol2
+     144 00C5  42				inc dx
+     145 00C6  EB 15 90				jmp Tarol2
+     146 00C9				Lefele2:
+     147 00C9  5A				pop dx
+     148 00CA  5B				pop bx
+     149 00CB  42				inc dx
+     150 00CC  81 FA 01E0			cmp dx, 480
+     151 00D0  72 0B				jc Tarol2
+     152 00D2  4A				dec dx
+     153 00D3  EB 08 90				jmp Tarol2
+     154 00D6				Tarol:
+     155 00D6  53				push bx ;osz1
+     156 00D7  52				push dx ;sor1
+     157 00D8  51				push cx ;osz2
+     158 00D9  50				push ax ;sor2
+     159					
+     160 00DA  E9 001B R			jmp Rajz1
+Microsoft (R) Macro Assembler Version 5.10                  11/6/23 16:03:15
+                                                             Page     1-4
+
+
+     161 00DD				Tarol2:
+     162 00DD  53				push bx ;osz2
+     163 00DE  52				push dx ;sor2
+     164					
+     165 00DF  E9 002D R			jmp Rajz2
+     166				
+     167 00E2				Program_Vege:
+     168				
+     169 00E2  B8 0003				mov ax, 03h ;cls
+     170 00E5  CD 10			    int 10h
+     171				
+     172 00E7  5A				pop dx
+     173 00E8  5B				pop bx
+     174					
+     175 00E9  B8 4C00				mov	ax, 4c00h
+     176 00EC  CD 21				int	21h
+     177				
+     178 00EE				Code	Ends
+     179				
+     180 0000				Data	Segment
+     181 0000				Data	Ends
+     182				
+     183 0000				Stack	Segment
+     184 0000				Stack	Ends
+     185					End	Start
+Microsoft (R) Macro Assembler Version 5.10                  11/6/23 16:03:15
+                                                             Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+CODE . . . . . . . . . . . . . .  	00EE	PARA	NONE	
+DATA . . . . . . . . . . . . . .  	0000	PARA	NONE	
+STACK  . . . . . . . . . . . . .  	0000	PARA	NONE	
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+BALRA1 . . . . . . . . . . . . .  	L NEAR	0067	CODE
+BALRA2 . . . . . . . . . . . . .  	L NEAR	00A4	CODE
+
+FELFELE1 . . . . . . . . . . . .  	L NEAR	0084	CODE
+FELFELE2 . . . . . . . . . . . .  	L NEAR	00BD	CODE
+
+JOBBRA1  . . . . . . . . . . . .  	L NEAR	0075	CODE
+JOBBRA2  . . . . . . . . . . . .  	L NEAR	00B0	CODE
+
+LEFELE1  . . . . . . . . . . . .  	L NEAR	0092	CODE
+LEFELE2  . . . . . . . . . . . .  	L NEAR	00C9	CODE
+
+PROGRAM_VEGE . . . . . . . . . .  	L NEAR	00E2	CODE
+PV . . . . . . . . . . . . . . .  	L NEAR	00A1	CODE
+
+RAJZ1  . . . . . . . . . . . . .  	L NEAR	001B	CODE
+RAJZ2  . . . . . . . . . . . . .  	L NEAR	002D	CODE
+
+START  . . . . . . . . . . . . .  	L NEAR	0000	CODE
+
+TAROL  . . . . . . . . . . . . .  	L NEAR	00D6	CODE
+TAROL2 . . . . . . . . . . . . .  	L NEAR	00DD	CODE
+
+VAR  . . . . . . . . . . . . . .  	L NEAR	0039	CODE
+
+@CPU . . . . . . . . . . . . . .  	TEXT  0101h		
+@FILENAME  . . . . . . . . . . .  	TEXT  tron		
+@VERSION . . . . . . . . . . . .  	TEXT  510		
+
+
+    185 Source  Lines
+    185 Total   Lines
+     24 Symbols
+
+  47508 + 459720 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors
