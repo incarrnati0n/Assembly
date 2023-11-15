@@ -1,0 +1,293 @@
+Microsoft (R) Macro Assembler Version 5.10                  11/15/23 17:59:2
+                                                             Page     1-1
+
+
+       1 0000				Code Segment
+       2				    assume CS:Code, DS:Data, SS:Stack
+       3 0000				Start:
+       4 0000  B8 ---- R		    mov ax, Code
+       5 0003  8E D8			    mov ds, ax
+       6				
+       7				
+       8 0005  BA 00C1 R		    mov dx, offset kezdoszoveg
+       9 0008  B4 09			    mov ah, 09h
+      10 000A  CD 21			    int 21h
+      11				
+      12 000C  EB 08 90			    jmp Beker
+      13				
+      14 000F				Bekerhiba:
+      15 000F  BA 00B1 R		    mov dx, offset hibauzenet
+      16 0012  B4 09			    mov ah, 09h
+      17 0014  CD 21			    int 21h
+      18				
+      19 0016				Beker:
+      20				
+      21 0016  33 C0			    xor ax, ax
+      22 0018  CD 16			    int 16h
+      23				
+      24 001A  3C 1B			    cmp al, 27
+      25 001C  74 23			    jz Feladat1_vege
+      26				
+      27 001E  3C 31			    cmp al, '1'
+      28 0020  7C ED			    jl Bekerhiba
+      29				
+      30 0022  3C 33			    cmp al, '3'
+      31 0024  7F E9			    jg Bekerhiba
+      32				
+      33 0026  2C 30			    sub al, '0'
+      34				
+      35 0028  8A C8			    mov cl, al
+      36				
+      37 002A  B0 01			    mov al, 1
+      38 002C  B3 04			    mov bl, 4
+      39				
+      40 002E				Szorzo:
+      41 002E  F6 E3			    mul bl
+      42 0030  E2 FC			    loop Szorzo
+      43				
+      44 0032  B1 08			    mov cl, 8
+      45 0034  F6 F1			    div cl
+      46				
+      47 0036  8A D8			    mov bl, al
+      48 0038  80 C3 30			    add bl, '0'
+      49 003B  8A D3			    mov dl, bl
+      50				
+      51 003D  B4 02			    mov ah, 02h
+      52 003F  CD 21			    int 21h
+      53				
+      54				
+Microsoft (R) Macro Assembler Version 5.10                  11/15/23 17:59:2
+                                                             Page     1-2
+
+
+      55 0041				Feladat1_vege:
+      56				
+      57 0041  33 C0			    xor ax, ax
+      58 0043  CD 16			    int 16h
+      59				
+      60				
+      61 0045				Feladat2:
+      62				
+      63 0045  B8 0003			    mov ax, 03h
+      64 0048  CD 10			    int 10h
+      65				
+      66 004A  BA 0115 R		    mov dx, offset szavak
+      67 004D  B4 09			    mov ah, 09h
+      68 004F  CD 21			    int 21h
+      69				
+      70 0051  33 D2			    xor dx, dx
+      71				
+      72				
+      73 0053  BF 00E0 R		    mov di, offset assembly
+      74 0056  B3 01			    mov bl, 1
+      75				
+      76 0058				Szamolas:
+      77 0058  8A 05			    mov al, [di]
+      78				
+      79 005A  3C 24			    cmp al, "$"
+      80 005C  74 0C			    jz Feladat2_vege
+      81				
+      82 005E  3C 20			    cmp al, " "
+      83 0060  74 03			    jz Novelo
+      84				
+      85 0062  47			    inc di
+      86				
+      87 0063  EB F3			    jmp Szamolas
+      88				
+      89 0065				Novelo:
+      90 0065  FE C3			    inc bl
+      91 0067  47			    inc di
+      92				
+      93 0068  EB EE			    jmp Szamolas
+      94				
+      95				
+      96				
+      97 006A				Feladat2_vege:
+      98 006A  80 C3 30			    add bl, '0'
+      99 006D  8A D3			    mov dl, bl
+     100 006F  B4 02			    mov ah, 02h
+     101 0071  CD 21			    int 21h
+     102				
+     103 0073  33 C0			    xor ax, ax
+     104 0075  CD 16			    int 16h
+     105				
+     106				
+     107 0077				Feladat3:
+     108				
+Microsoft (R) Macro Assembler Version 5.10                  11/15/23 17:59:2
+                                                             Page     1-3
+
+
+     109 0077  B8 0003			    mov ax, 03h
+     110 007A  CD 10			    int 10h
+     111				
+     112 007C  BA 0164 R		    mov dx, offset szamszoveg
+     113 007F  B4 09			    mov ah, 09
+     114 0081  CD 21			    int 21h
+     115				
+     116 0083				Bekeres:
+     117				
+     118 0083  33 C0			    xor ax, ax
+     119 0085  CD 16			    int 16h
+     120				
+     121 0087  3C 1B			    cmp al, 27
+     122 0089  74 1D			    jz Feladat3_vege
+     123				
+     124 008B  3C 30			    cmp al, '0'
+     125 008D  7C 07			    jl EzNemSzam
+     126				
+     127 008F  3C 39			    cmp al, '9'
+     128 0091  7F 03			    jg EzNemSzam
+     129				
+     130 0093  EB 0A 90			    jmp EzSzam
+     131				
+     132 0096				EzNemSzam:
+     133 0096  BA 014A R		    mov dx, offset uzenetnemszam
+     134 0099  B4 09			    mov ah, 09
+     135 009B  CD 21			    int 21h
+     136				
+     137 009D  EB E4			    jmp Bekeres
+     138				
+     139				
+     140 009F				EzSzam:
+     141 009F  BA 0130 R		    mov dx, offset uzenetszam
+     142 00A2  B4 09			    mov ah, 09
+     143 00A4  CD 21			    int 21h
+     144				
+     145 00A6  EB DB			    jmp Bekeres
+     146				
+     147				
+     148 00A8				Feladat3_vege:
+     149 00A8  33 C0			    xor ax, ax
+     150 00AA  CD 16			    int 16h
+     151				
+     152				
+     153				
+     154 00AC				Program_Vege:
+     155 00AC  B8 4C00			    mov ax, 4c00h
+     156 00AF  CD 21			    int 21h
+     157				
+     158				
+     159 00B1  48 69 62 61 73 20	hibauzenet db "Hibas karakter!$"
+     160       6B 61 72 61 6B 74	
+     161       65 72 21 24		
+     162				
+Microsoft (R) Macro Assembler Version 5.10                  11/15/23 17:59:2
+                                                             Page     1-4
+
+
+     163 00C1  28 34 5E 4E 20 2F	kezdoszoveg db "(4^N / 8) fuggveny ered
+					menye: $"
+     164       20 38 29 20 66 75	
+     165       67 67 76 65 6E 79	
+     166       20 65 72 65 64 6D	
+     167       65 6E 79 65 3A 20	
+     168       24			
+     169				
+     170 00E0  41 7A 20 61 73 73	assembly db "Az assembly nyelv nem keve
+					rendo ossze a gepi koddal!$"
+     171       65 6D 62 6C 79 20	
+     172       6E 79 65 6C 76 20	
+     173       6E 65 6D 20 6B 65	
+     174       76 65 72 65 6E 64	
+     175       6F 20 6F 73 73 7A	
+     176       65 20 61 20 67 65	
+     177       70 69 20 6B 6F 64	
+     178       64 61 6C 21 24		
+     179				
+     180 0115  53 7A 61 76 61 6B	szavak db "Szavak szama a mondatban: $"
+     181       20 73 7A 61 6D 61	
+     182       20 61 20 6D 6F 6E	
+     183       64 61 74 62 61 6E	
+     184       3A 20 24			
+     185				
+     186 0130  53 7A 61 6D 6A 65	uzenetszam	db	"Szamjegy lett 
+					leutve!    $"
+     187       67 79 20 6C 65 74	
+     188       74 20 6C 65 75 74	
+     189       76 65 21 20 20 20	
+     190       20 24			
+     191 014A  4E 65 6D 20 73 7A	uzenetnemszam	db	"Nem szamjegy l
+					ett leutve!$"
+     192       61 6D 6A 65 67 79	
+     193       20 6C 65 74 74 20	
+     194       6C 65 75 74 76 65	
+     195       21 24			
+     196				
+     197 0164  53 7A 61 6D 20 76	szamszoveg	db	"Szam vagy nem 
+					szam: $"
+     198       61 67 79 20 6E 65	
+     199       6D 20 73 7A 61 6D	
+     200       3A 20 24			
+     201				
+     202 0179				Code Ends
+     203 0000				Data Segment
+     204 0000				Data Ends
+     205 0000				Stack Segment
+     206 0000				Stack Ends
+     207				End Start
+Microsoft (R) Macro Assembler Version 5.10                  11/15/23 17:59:2
+                                                             Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+CODE . . . . . . . . . . . . . .  	0179	PARA	NONE	
+DATA . . . . . . . . . . . . . .  	0000	PARA	NONE	
+STACK  . . . . . . . . . . . . .  	0000	PARA	NONE	
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+ASSEMBLY . . . . . . . . . . . .  	L BYTE	00E0	CODE
+
+BEKER  . . . . . . . . . . . . .  	L NEAR	0016	CODE
+BEKERES  . . . . . . . . . . . .  	L NEAR	0083	CODE
+BEKERHIBA  . . . . . . . . . . .  	L NEAR	000F	CODE
+
+EZNEMSZAM  . . . . . . . . . . .  	L NEAR	0096	CODE
+EZSZAM . . . . . . . . . . . . .  	L NEAR	009F	CODE
+
+FELADAT1_VEGE  . . . . . . . . .  	L NEAR	0041	CODE
+FELADAT2 . . . . . . . . . . . .  	L NEAR	0045	CODE
+FELADAT2_VEGE  . . . . . . . . .  	L NEAR	006A	CODE
+FELADAT3 . . . . . . . . . . . .  	L NEAR	0077	CODE
+FELADAT3_VEGE  . . . . . . . . .  	L NEAR	00A8	CODE
+
+HIBAUZENET . . . . . . . . . . .  	L BYTE	00B1	CODE
+
+KEZDOSZOVEG  . . . . . . . . . .  	L BYTE	00C1	CODE
+
+NOVELO . . . . . . . . . . . . .  	L NEAR	0065	CODE
+
+PROGRAM_VEGE . . . . . . . . . .  	L NEAR	00AC	CODE
+
+START  . . . . . . . . . . . . .  	L NEAR	0000	CODE
+SZAMOLAS . . . . . . . . . . . .  	L NEAR	0058	CODE
+SZAMSZOVEG . . . . . . . . . . .  	L BYTE	0164	CODE
+SZAVAK . . . . . . . . . . . . .  	L BYTE	0115	CODE
+SZORZO . . . . . . . . . . . . .  	L NEAR	002E	CODE
+
+UZENETNEMSZAM  . . . . . . . . .  	L BYTE	014A	CODE
+UZENETSZAM . . . . . . . . . . .  	L BYTE	0130	CODE
+
+@CPU . . . . . . . . . . . . . .  	TEXT  0101h		
+@FILENAME  . . . . . . . . . . .  	TEXT  main		
+@VERSION . . . . . . . . . . . .  	TEXT  510		
+
+Microsoft (R) Macro Assembler Version 5.10                  11/15/23 17:59:2
+                                                             Symbols-2
+
+
+
+    177 Source  Lines
+    177 Total   Lines
+     30 Symbols
+
+  47430 + 455701 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors
