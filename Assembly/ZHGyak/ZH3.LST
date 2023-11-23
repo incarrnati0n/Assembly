@@ -1,0 +1,661 @@
+Microsoft (R) Macro Assembler Version 5.10                  11/23/23 15:08:2
+                                                             Page     1-1
+
+
+       1				;======================================
+					====================================
+       2				;Nï¿½v:
+       3				;Neptun kï¿½d:
+       4				;Dï¿½tum:
+       5				;
+       6				;======================================
+					====================================
+       7 0000				Code	Segment
+       8					assume CS:Code, DS:Data, SS:Sta
+					ck
+       9				
+      10				
+      11 0000				Start:
+      12 0000  B8 ---- R			mov	ax, Code
+      13 0003  8E D8				mov	DS, AX
+      14				
+      15 0005  B8 0003				mov ax,3
+      16 0008  CD 10				int 10h
+      17				
+      18				
+      19				;======================================
+					====================================
+      20				;1. feledat: 
+      21				;Karakteres ï¿½zemmï¿½dban rajzoljon eg
+					y rombuszt.
+      22				;A rombusz egyik csï¿½csa legyen a 10,1
+					0 koordinï¿½tï¿½n.
+      23				;
+      24				;A rombusz mï¿½rete ï¿½s elhelyezkedï¿½
+					se az alï¿½bbi vï¿½zlatnak megfelelï¿½ 
+					legyen! 
+      25				;
+      26				;    x
+      27				;   x x
+      28				;  x   x
+      29				; x     x
+      30				;x       x
+      31				; x     x
+      32				;  x   x
+      33				;   x x
+      34				;    x
+      35				;
+      36				;
+      37				;======================================
+					====================================
+      38				
+      39 000A  BA 0225 R			mov	dx, offset feladat1
+      40 000D  B4 09				mov	ah,9
+      41 000F  CD 21				int	21h
+      42				;**************************************
+					************************************
+      43				;Ide ï¿½rja a megfelelï¿½ programrï¿½sz
+					t!
+Microsoft (R) Macro Assembler Version 5.10                  11/23/23 15:08:2
+                                                             Page     1-2
+
+
+      44				
+      45 0011  B4 02				mov	ah, 02h
+      46 0013  B7 00				mov	bh, 0
+      47 0015  B2 0A				mov	dl, 10		
+      48 0017  B6 0A				mov	dh, 10		
+      49 0019  CD 10				int	10h
+      50 001B  52				push dx
+      51				
+      52 001C  B9 0005				mov cx, 5
+      53				
+      54					
+      55				
+      56 001F					Oldal1:
+      57 001F  BA 0078					mov dx, 'x'
+      58 0022  B4 02					mov ah, 02h
+      59 0024  CD 21					int 21h
+      60				
+      61 0026  5A					pop dx
+      62 0027  FE C2					inc dl
+      63 0029  FE C6					inc dh
+      64 002B  CD 10					int 10h
+      65 002D  52					push dx
+      66				
+      67 002E  E2 EF					loop Oldal1
+      68				
+      69 0030  5A			pop dx
+      70 0031  FE CA			dec dl
+      71 0033  FE CE			dec dh
+      72 0035  CD 10			int 10h
+      73 0037  52			push dx
+      74				
+      75 0038  B9 0005			mov cx, 5
+      76				
+      77 003B					Oldal2:
+      78 003B  BA 0078					mov dx, 'x'
+      79 003E  B4 02					mov ah, 02h
+      80 0040  CD 21					int 21h
+      81				
+      82 0042  5A					pop dx
+      83 0043  FE CA					dec dl
+      84 0045  FE C6					inc dh
+      85 0047  CD 10					int 10h
+      86 0049  52					push dx
+      87				
+      88 004A  E2 EF					loop Oldal2
+      89				
+      90 004C  5A			pop dx
+      91 004D  FE C2			inc dl
+      92 004F  FE CE			dec dh
+      93 0051  CD 10			int 10h
+      94 0053  52			push dx
+      95				
+      96 0054  B9 0005			mov cx, 5
+      97				
+Microsoft (R) Macro Assembler Version 5.10                  11/23/23 15:08:2
+                                                             Page     1-3
+
+
+      98 0057					Oldal3:
+      99 0057  BA 0078					mov dx, 'x'
+     100 005A  B4 02					mov ah, 02h
+     101 005C  CD 21					int 21h
+     102				
+     103 005E  5A					pop dx
+     104 005F  FE CA					dec dl
+     105 0061  FE CE					dec dh
+     106 0063  CD 10					int 10h
+     107 0065  52					push dx
+     108				
+     109 0066  E2 EF					loop Oldal3
+     110				
+     111 0068  5A			pop dx
+     112 0069  FE C2			inc dl
+     113 006B  FE C6			inc dh
+     114 006D  CD 10			int 10h
+     115 006F  52			push dx
+     116				
+     117 0070  B9 0005			mov cx, 5
+     118				
+     119 0073					Oldal4:
+     120 0073  BA 0078					mov dx, 'x'
+     121 0076  B4 02					mov ah, 02h
+     122 0078  CD 21					int 21h
+     123				
+     124 007A  5A					pop dx
+     125 007B  FE C2					inc dl
+     126 007D  FE CE					dec dh
+     127 007F  CD 10					int 10h 
+     128 0081  52					push dx
+     129				
+     130 0082  E2 EF					loop Oldal4
+     131				
+     132				
+     133				;Eddig
+     134				;**************************************
+					************************************
+     135 0084  33 C0				xor	ax,ax
+     136 0086  CD 16				int	16h
+     137				;======================================
+					====================================
+     138				;2. feledat: 
+     139				;Dï¿½ntse el a megnyomott bilentyï¿½rï¿
+					½l, hogy szï¿½mot, vagy betï¿½ karakter
+					t
+     140				;"vitt" be! A ciklusbï¿½l "ESC" billent
+					yï¿½ leï¿½tï¿½sï¿½vel lehet kilï¿½pni.
+     141				;Hasznï¿½lja a program elï¿½re megï¿½rt
+					 ï¿½zeneteit!
+     142				;======================================
+					====================================
+     143 0088  B4 02				mov	ah, 02h
+     144 008A  B7 00				mov	bh, 0
+Microsoft (R) Macro Assembler Version 5.10                  11/23/23 15:08:2
+                                                             Page     1-4
+
+
+     145 008C  B2 00				mov	dl, 0		;DL:X k
+					oordinata
+     146 008E  B6 0F				mov	dh, 15		;DH:Y k
+					oordinata
+     147 0090  CD 10				int	10h
+     148				
+     149 0092  BA 023C R			mov	dx, offset feladat2
+     150 0095  B4 09				mov	ah, 9
+     151 0097  CD 21				int	21h
+     152				
+     153 0099				bevitel1:
+     154 0099  B4 02				mov	ah, 02h
+     155 009B  B7 00				mov	bh, 0
+     156 009D  B2 00				mov	dl,0		;DL:X k
+					oordinata
+     157 009F  B6 11				mov	dh,17		;DH:Y k
+					oordinata
+     158 00A1  CD 10				int	10h
+     159				
+     160 00A3  32 E4				xor ah,ah
+     161 00A5  CD 16				int 16h
+     162 00A7  3C 1B				cmp al,27
+     163 00A9  74 25				jz Feladat2_Vege
+     164				;**************************************
+					************************************
+     165				;Ide ï¿½rja a megfelelï¿½ programrï¿½sz
+					t!
+     166				
+     167 00AB				Beker:
+     168				
+     169 00AB  33 C0				xor ax, ax
+     170 00AD  CD 16				int 16h
+     171				
+     172 00AF  3C 1B				cmp al, 27
+     173 00B1  74 1D				jz Feladat2_Vege
+     174				
+     175 00B3  3C 30				cmp al, '0'
+     176 00B5  7C 07				jl NemSzam
+     177				
+     178 00B7  3C 39				cmp al, '9'
+     179 00B9  7F 03				jg NemSzam
+     180				
+     181 00BB  EB 0A 90				jmp Szam
+     182				
+     183 00BE				NemSzam:
+     184 00BE  BA 01E9 R			mov dx, offset uzenetnemszam
+     185 00C1  B4 09				mov ah, 09h
+     186 00C3  CD 21				int 21h
+     187				
+     188 00C5  EB E4				jmp Beker
+     189				
+     190 00C7				Szam:
+     191 00C7  BA 01CF R			mov dx, offset uzenetszam
+     192 00CA  B4 09				mov ah, 09h
+Microsoft (R) Macro Assembler Version 5.10                  11/23/23 15:08:2
+                                                             Page     1-5
+
+
+     193 00CC  CD 21				int 21h
+     194				
+     195 00CE  EB DB				jmp Beker
+     196				
+     197				;Eddig
+     198				;**************************************
+					************************************
+     199 00D0				Feladat2_Vege:
+     200				;======================================
+					====================================
+     201				;3. feledat: 
+     202				;Karakteres ï¿½zemmï¿½dban ï¿½rja ki a 
+					kï¿½pernyï¿½re SI:DI ï¿½rtï¿½kï¿½t binï
+					¿½ris formï¿½ban!
+     203				;(Hasznï¿½lja a balra rotï¿½lï¿½ (RCL) 
+					utasï¿½tï¿½st, amely a Carry bitet ï¿½l
+					lï¿½tja!)
+     204				;======================================
+					====================================
+     205 00D0  B4 02				mov	ah, 02h
+     206 00D2  B7 00				mov	bh, 0
+     207 00D4  B2 00				mov	dl,0		;DL:X k
+					oordinata
+     208 00D6  B6 13				mov	dh,19		;DH:Y k
+					oordinata
+     209 00D8  CD 10				int	10h
+     210				
+     211 00DA  BA 026D R			mov	dx, offset feladat3
+     212 00DD  B4 09				mov	ah,9
+     213 00DF  CD 21				int	21h
+     214				
+     215 00E1  B4 02				mov	ah, 02h
+     216 00E3  B7 00				mov	bh, 0
+     217 00E5  B2 00				mov	dl,0		;DL:X k
+					oordinata
+     218 00E7  B6 15				mov	dh,21		;DH:Y k
+					oordinata
+     219 00E9  CD 10				int	10h
+     220				
+     221 00EB  BE 02AA				mov	si, 682
+     222 00EE  BF 02AA				mov	di, 682
+     223				;**************************************
+					************************************
+     224				;Ide ï¿½rja a megfelelï¿½ programrï¿½sz
+					t!
+     225				
+     226 00F1  8B DE				mov bx, si
+     227 00F3  B9 0010				mov cx, 16
+     228				
+     229 00F6				SiBinaris:
+     230 00F6  D1 D3				rcl bx, 1
+     231 00F8  72 0B				jc Egyes
+     232				
+     233				
+Microsoft (R) Macro Assembler Version 5.10                  11/23/23 15:08:2
+                                                             Page     1-6
+
+
+     234 00FA  B2 30				mov dl, '0'
+     235 00FC  B4 02				mov ah, 02h
+     236 00FE  CD 21				int 21h
+     237				
+     238 0100  E2 F4				loop SiBinaris
+     239				
+     240 0102  EB 0F 90				jmp KoviBinaris
+     241				
+     242 0105				Egyes:
+     243				
+     244 0105  B2 31				mov dl, '1'
+     245 0107  B4 02				mov ah, 02h
+     246 0109  CD 21				int 21h
+     247				
+     248 010B  49				dec cx
+     249				
+     250 010C  83 F9 00				cmp cx, 0
+     251 010F  74 02				jz KoviBinaris
+     252				
+     253 0111  EB E3				jmp SiBinaris
+     254				
+     255				
+     256 0113				KoviBinaris:
+     257 0113  B2 20				mov dl, ' '
+     258 0115  B4 02				mov ah, 02
+     259 0117  CD 21				int 21h
+     260				
+     261 0119  B2 3A				mov dl, ':'
+     262 011B  B4 02				mov ah, 02
+     263 011D  CD 21				int 21h
+     264				
+     265 011F  B2 20				mov dl, ' '
+     266 0121  B4 02				mov ah, 02
+     267 0123  CD 21				int 21h
+     268				
+     269 0125  8B DF				mov bx, di
+     270 0127  B9 0010				mov cx, 16
+     271				
+     272 012A				DiBinaris:
+     273 012A  D1 D3				rcl bx, 1
+     274 012C  72 0B				jc Egyes2
+     275				
+     276				
+     277 012E  B2 30				mov dl, '0'
+     278 0130  B4 02				mov ah, 02h
+     279 0132  CD 21				int 21h
+     280				
+     281 0134  E2 F4				loop DiBinaris
+     282				
+     283 0136  EB 0F 90				jmp Feladat3_Vege
+     284				
+     285 0139				Egyes2:
+     286 0139  B2 31				mov dl, '1'
+     287 013B  B4 02				mov ah, 02h
+Microsoft (R) Macro Assembler Version 5.10                  11/23/23 15:08:2
+                                                             Page     1-7
+
+
+     288 013D  CD 21				int 21h
+     289				
+     290 013F  49				dec cx
+     291 0140  83 F9 00				cmp cx, 0
+     292 0143  74 02				jz Feladat3_Vege
+     293				
+     294 0145  EB E3				jmp DiBinaris
+     295				
+     296 0147				Feladat3_Vege:
+     297				;Eddig
+     298				;**************************************
+					************************************
+     299 0147  33 C0				xor	ax,ax
+     300 0149  CD 16				int	16h
+     301				
+     302 014B  B8 0003				mov ax,3
+     303 014E  CD 10				int 10h
+     304				
+     305				;======================================
+					====================================
+     306				;5. feledat: 
+     307				;Karakteres ï¿½zemmï¿½dban ï¿½rja ki a 
+					"Indul a gï¿½rï¿½g aludni!" uzenetet!
+     308				;Hasznï¿½lja a meglï¿½vï¿½ "uzenet5" sz
+					tringet!
+     309				;======================================
+					====================================
+     310 0150  BA 0296 R			mov	dx, offset feladat5
+     311 0153  B4 09				mov	ah,9
+     312 0155  CD 21				int	21h
+     313				
+     314 0157  B4 02				mov	ah, 02h
+     315 0159  B7 00				mov	bh, 0
+     316 015B  B2 00				mov	dl,0		;DL:X k
+					oordinata
+     317 015D  B6 02				mov	dh,2		;DH:Y k
+					oordinata
+     318 015F  CD 10				int	10h
+     319				
+     320				;**************************************
+					************************************
+     321				;Ide ï¿½rja a megfelelï¿½ programrï¿½sz
+					t!
+     322				
+     323 0161  BF 020D R			mov di, offset uzenet5
+     324				
+     325 0164				Elore:
+     326 0164  8B 05				mov ax, [di]
+     327				
+     328 0166  3C 49				cmp al, 'I'
+     329 0168  74 03				jz Vegere
+     330				
+     331 016A  47				inc di
+     332				
+Microsoft (R) Macro Assembler Version 5.10                  11/23/23 15:08:2
+                                                             Page     1-8
+
+
+     333 016B  EB F7				jmp Elore
+     334				
+     335 016D				Vegere:
+     336 016D  8B 15				mov dx, [di]
+     337 016F  B4 02				mov ah, 02h
+     338 0171  CD 21				int 21h
+     339				
+     340 0173  80 FA 21				cmp dl, '!'
+     341 0176  74 03				jz Feladat5_vege
+     342				
+     343 0178  4F				dec di
+     344				
+     345 0179  EB F2				jmp Vegere
+     346				
+     347 017B				Feladat5_vege:
+     348				
+     349				;Eddig
+     350				;**************************************
+					************************************
+     351 017B  33 C0				xor	ax,ax
+     352 017D  CD 16				int	16h
+     353				;======================================
+					====================================
+     354				;6. feledat: 
+     355				;Szï¿½mï¿½tsa ki a "muvelet1" sztringbe
+					n megadott osztï¿½st.
+     356				;A kï¿½t szï¿½jegyet elvï¿½lasztï¿½ "/"
+					 szimbï¿½lumot nem kell feldolgozni!
+     357				;A osztï¿½s eredmï¿½nyï¿½t ï¿½s maradï¿
+					½kï¿½t decimï¿½lis formï¿½ban ï¿½rja ki
+					!
+     358				;======================================
+					====================================
+     359 017F  B4 02				mov	ah, 02h
+     360 0181  B7 00				mov	bh, 0
+     361 0183  B2 00				mov	dl,0		;DL:X k
+					oordinata
+     362 0185  B6 04				mov	dh,4		;DH:Y k
+					oordinata
+     363 0187  CD 10				int	10h
+     364				
+     365 0189  BA 02B5 R			mov	dx, offset feladat6
+     366 018C  B4 09				mov	ah,9
+     367 018E  CD 21				int	21h
+     368				
+     369 0190  B4 02				mov	ah, 02h
+     370 0192  B7 00				mov	bh, 0
+     371 0194  B2 00				mov	dl,0		;DL:X k
+					oordinata
+     372 0196  B6 06				mov	dh,6		;DH:Y k
+					oordinata
+     373 0198  CD 10				int	10h
+     374				
+     375				;**************************************
+Microsoft (R) Macro Assembler Version 5.10                  11/23/23 15:08:2
+                                                             Page     1-9
+
+
+					************************************
+     376				;Ide ï¿½rja a megfelelï¿½ programrï¿½sz
+					t!
+     377 019A  33 C0				xor ax, ax
+     378 019C  BF 0222 R			mov di, offset muvelet1
+     379 019F  8A 05				mov al, [di]
+     380					
+     381 01A1  47				inc di
+     382 01A2  47				inc di
+     383					
+     384 01A3  8A 1D				mov bl, [di]
+     385					
+     386 01A5  2C 30				sub al, '0'
+     387 01A7  80 EB 30				sub bl, '0'
+     388					
+     389 01AA  F6 F3				div bl
+     390 01AC  8A CC				mov cl, ah
+     391					
+     392					
+     393 01AE  8A D0				mov dl, al
+     394 01B0  80 C2 30				add dl, '0'
+     395 01B3  B4 02				mov ah, 2
+     396 01B5  CD 21				int 21h
+     397					
+     398 01B7  B2 2C				mov dl, ','
+     399 01B9  B4 02				mov ah, 2
+     400 01BB  CD 21				int 21h
+     401					
+     402 01BD  8A D1				mov dl, cl
+     403 01BF  80 C2 30				add dl, '0'
+     404 01C2  B4 02				mov ah, 2
+     405 01C4  CD 21				int 21h
+     406				
+     407				
+     408				;Eddig
+     409				;**************************************
+					************************************
+     410 01C6  33 C0				xor	ax,ax
+     411 01C8  CD 16				int	16h
+     412				
+     413 01CA				Program_Vege:
+     414 01CA  B8 4C00				mov	ax, 4c00h
+     415 01CD  CD 21				int	21h
+     416				
+     417 01CF  53 7A 61 6D 6A 65	uzenetszam	db	"Szamjegy lett 
+					leutve!    $"
+     418       67 79 20 6C 65 74	
+     419       74 20 6C 65 75 74	
+     420       76 65 21 20 20 20	
+     421       20 24			
+     422 01E9  4E 65 6D 20 73 7A	uzenetnemszam	db	"Nem szamjegy v
+					agy betu lett leutve!$"
+     423       61 6D 6A 65 67 79	
+     424       20 76 61 67 79 20	
+Microsoft (R) Macro Assembler Version 5.10                  11/23/23 15:08:2
+                                                             Page     1-10
+
+
+     425       62 65 74 75 20 6C	
+     426       65 74 74 20 6C 65	
+     427       75 74 76 65 21 24	
+     428 020D  21 69 6E 64 75 6C	uzenet5		db	"!indula gorog 
+					a ludnI"
+     429       61 20 67 6F 72 6F	
+     430       67 20 61 20 6C 75	
+     431       64 6E 49			
+     432 0222  38 2F 35			muvelet1	db	"8/5"
+     433					
+     434 0225  45 6C 73 6F 20 66	feladat1	db	"Elso feladat: 
+					rombusz.$" 
+     435       65 6C 61 64 61 74	
+     436       3A 20 72 6F 6D 62	
+     437       75 73 7A 2E 24		
+     438 023C  4D 61 73 6F 64 69	feladat2	db	"Masodik felada
+					t: szamjegy bevitele.(ESC=kilepes)$" 
+     439       6B 20 66 65 6C 61	
+     440       64 61 74 3A 20 73	
+     441       7A 61 6D 6A 65 67	
+     442       79 20 62 65 76 69	
+     443       74 65 6C 65 2E 28	
+     444       45 53 43 3D 6B 69	
+     445       6C 65 70 65 73 29	
+     446       24			
+     447 026D  48 61 72 6D 61 64	feladat3	db	"Harmadik felad
+					at: SI erteke decimalisan.$" 
+     448       69 6B 20 66 65 6C	
+     449       61 64 61 74 3A 20	
+     450       53 49 20 65 72 74	
+     451       65 6B 65 20 64 65	
+     452       63 69 6D 61 6C 69	
+     453       73 61 6E 2E 24		
+     454 0296  4F 74 6F 64 69 6B	feladat5	db	"Otodik feladat
+					: uzenet kiiras.$" 
+     455       20 66 65 6C 61 64	
+     456       61 74 3A 20 75 7A	
+     457       65 6E 65 74 20 6B	
+     458       69 69 72 61 73 2E	
+     459       24			
+     460 02B5  48 61 74 6F 64 69	feladat6	db	"Hatodik felada
+					t: szamolas.$" 
+     461       6B 20 66 65 6C 61	
+     462       64 61 74 3A 20 73	
+     463       7A 61 6D 6F 6C 61	
+     464       73 2E 24			
+     465				
+     466 02D0				Code	Ends
+     467				
+     468 0000				Data	Segment
+     469				
+     470 0000				Data	Ends
+     471				
+     472 0000				Stack	Segment
+Microsoft (R) Macro Assembler Version 5.10                  11/23/23 15:08:2
+                                                             Page     1-11
+
+
+     473				
+     474 0000				Stack	Ends
+     475					End	Start
+Microsoft (R) Macro Assembler Version 5.10                  11/23/23 15:08:2
+                                                             Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+CODE . . . . . . . . . . . . . .  	02D0	PARA	NONE	
+DATA . . . . . . . . . . . . . .  	0000	PARA	NONE	
+STACK  . . . . . . . . . . . . .  	0000	PARA	NONE	
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+BEKER  . . . . . . . . . . . . .  	L NEAR	00AB	CODE
+BEVITEL1 . . . . . . . . . . . .  	L NEAR	0099	CODE
+
+DIBINARIS  . . . . . . . . . . .  	L NEAR	012A	CODE
+
+EGYES  . . . . . . . . . . . . .  	L NEAR	0105	CODE
+EGYES2 . . . . . . . . . . . . .  	L NEAR	0139	CODE
+ELORE  . . . . . . . . . . . . .  	L NEAR	0164	CODE
+
+FELADAT1 . . . . . . . . . . . .  	L BYTE	0225	CODE
+FELADAT2 . . . . . . . . . . . .  	L BYTE	023C	CODE
+FELADAT2_VEGE  . . . . . . . . .  	L NEAR	00D0	CODE
+FELADAT3 . . . . . . . . . . . .  	L BYTE	026D	CODE
+FELADAT3_VEGE  . . . . . . . . .  	L NEAR	0147	CODE
+FELADAT5 . . . . . . . . . . . .  	L BYTE	0296	CODE
+FELADAT5_VEGE  . . . . . . . . .  	L NEAR	017B	CODE
+FELADAT6 . . . . . . . . . . . .  	L BYTE	02B5	CODE
+
+KOVIBINARIS  . . . . . . . . . .  	L NEAR	0113	CODE
+
+MUVELET1 . . . . . . . . . . . .  	L BYTE	0222	CODE
+
+NEMSZAM  . . . . . . . . . . . .  	L NEAR	00BE	CODE
+
+OLDAL1 . . . . . . . . . . . . .  	L NEAR	001F	CODE
+OLDAL2 . . . . . . . . . . . . .  	L NEAR	003B	CODE
+OLDAL3 . . . . . . . . . . . . .  	L NEAR	0057	CODE
+OLDAL4 . . . . . . . . . . . . .  	L NEAR	0073	CODE
+
+PROGRAM_VEGE . . . . . . . . . .  	L NEAR	01CA	CODE
+
+SIBINARIS  . . . . . . . . . . .  	L NEAR	00F6	CODE
+START  . . . . . . . . . . . . .  	L NEAR	0000	CODE
+SZAM . . . . . . . . . . . . . .  	L NEAR	00C7	CODE
+
+UZENET5  . . . . . . . . . . . .  	L BYTE	020D	CODE
+UZENETNEMSZAM  . . . . . . . . .  	L BYTE	01E9	CODE
+UZENETSZAM . . . . . . . . . . .  	L BYTE	01CF	CODE
+
+VEGERE . . . . . . . . . . . . .  	L NEAR	016D	CODE
+
+@CPU . . . . . . . . . . . . . .  	TEXT  0101h		
+Microsoft (R) Macro Assembler Version 5.10                  11/23/23 15:08:2
+                                                             Symbols-2
+
+
+@FILENAME  . . . . . . . . . . .  	TEXT  zh3		
+@VERSION . . . . . . . . . . . .  	TEXT  510		
+
+
+    437 Source  Lines
+    437 Total   Lines
+     37 Symbols
+
+  47448 + 445444 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors
