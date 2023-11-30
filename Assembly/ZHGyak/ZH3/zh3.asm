@@ -322,7 +322,6 @@ Feladat3_Vege:
 
 	mov di, offset uzenet5
 	mov bl, 0
-
 Elore:
 	mov ax, [di]
 
