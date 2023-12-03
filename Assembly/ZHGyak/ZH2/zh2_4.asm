@@ -382,7 +382,7 @@ Program_Vege:
 
 uzenetszam	db	"Szamjegy lett leutve!    $"
 uzenetnemszam	db	"Nem szamjegy lett leutve!$"
-uzenet5		db	"x!xixnxdxuxxxxxlxax xgxxxxoxrxoxgxxx xax xlxuxdxxnxI$"
+uzenet5		db	"x!xixnxdxuxxxxxlxaxxxxxx xgxxxxoxrxoxgxxx xax xlxuxdxxnxI$"
 muvelet1	db	"5*7"
 	
 feladat1	db	"Elso feladat: derekszogu haromszog.$" 

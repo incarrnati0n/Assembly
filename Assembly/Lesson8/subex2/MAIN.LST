@@ -1,0 +1,159 @@
+Microsoft (R) Macro Assembler Version 5.10                  12/3/23 11:24:20
+                                                             Page     1-1
+
+
+       1 0000				Code Segment
+       2				    assume CS:Code, DS:Data, SS:Stack
+       3 0000				Start:
+       4 0000  B8 ---- R		    mov ax, Code
+       5 0003  8E D8			    mov ds, ax
+       6				
+       7 0005  B8 0003			    mov ax, 03h
+       8 0008  CD 10			    int 10h
+       9				
+      10 000A  B4 02			    mov ah, 02h
+      11 000C  B7 00			    mov bh, 0
+      12 000E  B2 28			    mov dl, 40
+      13 0010  B6 0D			    mov dh, 13
+      14 0012  CD 10			    int 10h
+      15				
+      16 0014  BA 005C R		    mov dx, offset felirat
+      17 0017  B4 09			    mov ah, 09h
+      18 0019  CD 21			    int 21h
+      19				
+      20				
+      21				
+      22 001B				Animal:
+      23 001B  FE C2			    inc dl
+      24				
+      25 001D  B8 0003			    mov ax, 03h
+      26 0020  CD 10			    int 10h
+      27				
+      28 0022  52			    push dx
+      29				
+      30 0023  BA 005C R		    mov dx, offset felirat
+      31 0026  B4 09			    mov ah, 09h
+      32 0028  CD 21			    int 21h
+      33				
+      34 002A  5A			    pop dx
+      35				
+      36 002B  3C 45			    cmp al, 69
+      37 002D  74 03			    jz input 
+      38				
+      39 002F  EB 13 90			    jmp Readclock
+      40				
+      41 0032				Input:
+      42 0032  33 C0			    xor ax, ax
+      43 0034  CD 16			    int 16h
+      44				
+      45 0036  3C 1B			    cmp al, 27
+      46 0038  74 2E			    jz Program_Vege
+      47				
+      48 003A  3C 77			    cmp al, 'w'
+      49 003C  74 06			    jz Felfele
+      50				
+      51 003E  3C 73			    cmp al, 's'
+      52 0040  74 02			    jz Lefele
+      53				
+      54 0042  EB EE			    jmp Input
+Microsoft (R) Macro Assembler Version 5.10                  12/3/23 11:24:20
+                                                             Page     1-2
+
+
+      55				
+      56				
+      57 0044				Felfele:
+      58				
+      59				
+      60				
+      61 0044				Lefele:
+      62				
+      63				
+      64 0044				Readclock:
+      65 0044  33 C0			    xor ax, ax
+      66 0046  CD 1A			    int 1ah
+      67				
+      68 0048  59			    pop cx 
+      69 0049  51			    push cx 
+      70 004A  8B C2			    mov ax, dx 
+      71 004C  2B D1			    sub dx, cx 
+      72 004E  50			    push ax
+      73				
+      74 004F  B0 05			    mov al, 5
+      75				
+      76 0051				Beallit:
+      77 0051  32 E4			    xor ah, ah 
+      78 0053  3B D0			    cmp dx, ax
+      79				
+      80 0055  58			    pop ax
+      81				
+      82 0056  72 EC			    jc Readclock
+      83				
+      84 0058  59			    pop cx
+      85 0059  50			    push ax
+      86				
+      87 005A  EB BF			    jmp Animal
+      88				    
+      89				
+      90				
+      91				
+      92 005C  57 6F 77 2C 20 6D	felirat db "Wow, mozog!$"
+      93       6F 7A 6F 67 21 24	
+      94				
+      95 0068				Program_Vege:
+      96 0068  B8 4C00			    mov ax, 4c00h
+      97 006B  CD 21			    int 21h
+      98				
+      99				
+     100 006D				Code Ends
+     101 0000				Data Segment
+     102 0000				Data Ends
+     103 0000				Stack Segment
+     104 0000				Stack Ends
+     105				End Start
+Microsoft (R) Macro Assembler Version 5.10                  12/3/23 11:24:20
+                                                             Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+CODE . . . . . . . . . . . . . .  	006D	PARA	NONE	
+DATA . . . . . . . . . . . . . .  	0000	PARA	NONE	
+STACK  . . . . . . . . . . . . .  	0000	PARA	NONE	
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+ANIMAL . . . . . . . . . . . . .  	L NEAR	001B	CODE
+
+BEALLIT  . . . . . . . . . . . .  	L NEAR	0051	CODE
+
+FELFELE  . . . . . . . . . . . .  	L NEAR	0044	CODE
+FELIRAT  . . . . . . . . . . . .  	L BYTE	005C	CODE
+
+INPUT  . . . . . . . . . . . . .  	L NEAR	0032	CODE
+
+LEFELE . . . . . . . . . . . . .  	L NEAR	0044	CODE
+
+PROGRAM_VEGE . . . . . . . . . .  	L NEAR	0068	CODE
+
+READCLOCK  . . . . . . . . . . .  	L NEAR	0044	CODE
+
+START  . . . . . . . . . . . . .  	L NEAR	0000	CODE
+
+@CPU . . . . . . . . . . . . . .  	TEXT  0101h		
+@FILENAME  . . . . . . . . . . .  	TEXT  main		
+@VERSION . . . . . . . . . . . .  	TEXT  510		
+
+
+    104 Source  Lines
+    104 Total   Lines
+     17 Symbols
+
+  47468 + 461807 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors

@@ -41,10 +41,36 @@ Start:
 	
 ;**************************************************************************
 ;Ide irja a megfelelo programreszt!
+	xor ax, ax
+	xor cx, cx
+	xor dx, dx
+
+	mov cl, 8
+
+BlBinaris:
+	rcl bl, 1
+	jc Egyes
+
+	mov dl, '0'
+	mov ah, 02h
+	int 21h
+
+	loop BlBinaris
+
+	jmp Feladat1_vege
 
 
+Egyes:
+	mov dl, '1'
+	mov ah, 02h
+	int 21h
 
+	dec cl
 
+	cmp cl, 0
+	jz Feladat1_vege
+
+	jmp BlBinaris
 
 ;Eddig
 ;**************************************************************************
@@ -78,63 +104,51 @@ Feladat1_vege:
 ;**************************************************************************
 ;Ide irja a megfelelo programreszt!
 
-	mov di, offset string1
-	mov si, offset string2
-
 ;string1			db	"asdFghjKa"
 ;string2			db	"aSdfgHjkb"
 
-Keres:
-
-	mov al, [di]
-	mov bl, [si]
-
-	cmp al, bl
-	jnz Case1
-
-	inc di
-	inc si
-
-	loop Keres
-
-	jmp Tokeletes
-
-Case1:
-	add al, 32
-	cmp al, bl
-	jz Tovabb
-
+	mov di, offset string1
+	mov si, offset string2
+	
+Hasonlit:
+	mov bl, [di]
+	mov al, [si]
+	
+	cmp bl,"Z"
+	jbe Masik
+	
+	sub bl, 32
+	
+Masik:
+	
+	cmp al,"Z"
+	jbe Tovabb
+	
 	sub al, 32
-
-	jmp Case2
-
-
-Case2:
-	sub al, 32
-
-	cmp al, bl
-	jz Tovabb
-
-	jmp Hibas
 
 Tovabb:
+
+	cmp bl,al
+	jnz Rossz
+	
 	inc di
 	inc si
-	jmp Keres
-
-Hibas:
-	mov dx, offset nemegyforma
-	mov ah, 09h
-	int 21h
-
-	jmp Feladat2_Vege
-
-Tokeletes:
+	
+	loop Hasonlit
+	
 	mov dx, offset egyforma
-	mov ah, 09h
+	mov ah,09h
+	int 21h
+	
+	
+	jmp Feladat2_Vege
+	
+Rossz:
+	mov dx, offset nemegyforma
+	mov ah,09h
 	int 21h
 
-	jmp Feladat2_Vege
+
 
 ;Eddig
 ;**************************************************************************
@@ -210,8 +224,8 @@ Feladat3_Vege:
 
 	mov ah, 02h
 	mov bh, 0
-	mov dl, 25
-	mov dh, 80
+	mov dl, 40
+	mov dh, 10
 	int 10h
 	push dx
 
@@ -361,6 +375,22 @@ Feladat5_Vege:
 Program_Vege:
 	mov	ax, 4c00h
 	int	21h
+
+Methods:
+	HexaPrint:
+		cmp dl, 9
+		jg Betu
+
+		add dl, '0'
+
+		jmp Kiir
+
+		Betu:
+			add dl, 55
+		Kiir:
+			mov ah, 02h
+			int 21h
+	ret
 	
 feladat1		db	"Elso feladat: Szamrendszeres$" 
 feladat2		db	"Masodik feladat: Karaktersorozatos$" 
@@ -369,7 +399,7 @@ feladat4		db	"Negyedik feladat: Rajzolas$"
 feladat5		db	"Otodik feladat: Muvelet$" 
 
 string1			db	"asdFghjKa"
-string2			db	"aSdfgHjka"
+string2			db	"aSdfgHjkB"
 
 egyforma		db	"egyforma$"
 nemegyforma		db	"nem egyforma$"

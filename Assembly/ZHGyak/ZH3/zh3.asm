@@ -345,9 +345,6 @@ Vegere:
 	mov ah, 02h
 	int 21h
 
-	cmp cl, 0
-	jz Feladat5_vege
-
 	dec di
 
 	loop Vegere

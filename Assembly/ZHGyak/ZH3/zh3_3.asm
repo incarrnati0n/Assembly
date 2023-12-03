@@ -339,7 +339,6 @@ Vegere:
 	inc di
 	inc bl
 
-
 	jmp Vegere
 
 Visszaallit:
